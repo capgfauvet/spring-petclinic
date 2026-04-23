@@ -1,174 +1,503 @@
-# Spring PetClinic Sample Application [![Build Status](https://github.com/spring-projects/spring-petclinic/actions/workflows/maven-build.yml/badge.svg)](https://github.com/spring-projects/spring-petclinic/actions/workflows/maven-build.yml)[![Build Status](https://github.com/spring-projects/spring-petclinic/actions/workflows/gradle-build.yml/badge.svg)](https://github.com/spring-projects/spring-petclinic/actions/workflows/gradle-build.yml)
+﻿# Lab IA Agentique L1
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/spring-projects/spring-petclinic) [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=7517918)
+> [!TIP]
+> Ce TP s'appuie sur **Spring PetClinic**, une application Spring Boot MVC de référence.
+> La documentation complète du repository d'origine est disponible dans [`pet-clinic.md`](pet-clinic.md).
 
-## Understanding the Spring Petclinic application with a few diagrams
+## TP : Découverte des modes et fonctionnalités de Copilot
 
-See the presentation here:  
-[Spring Petclinic Sample Application (legacy slides)](https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application?slide=20)
+> [!NOTE]
+> Le backlog du projet est disponible dans le dossier [`backlog/`](backlog/). Chaque fichier `.user-story.md` décrit une feature avec ses règles métier. Ces US servent de support tout au long du TP.
 
-> **Note:** These slides refer to a legacy, pre–Spring Boot version of Petclinic and may not reflect the current Spring Boot–based implementation.  
-> For up-to-date information, please refer to this repository and its documentation.
+### Présentation du TP
 
+Ce TP est une initiation aux différents modes et fonctionnalités de GitHub Copilot dans le cadre du développement d'une application Spring Boot MVC existante : **Spring PetClinic**.
 
-## Run Petclinic locally
+L'objectif n'est pas de livrer une implémentation complète, mais de **pratiquer chaque mode de Copilot** sur des exercices concrets, de comparer les résultats et de développer un sens critique sur les propositions générées.
 
-Spring Petclinic is a [Spring Boot](https://spring.io/guides/gs/spring-boot) application built using [Maven](https://spring.io/guides/gs/maven/) or [Gradle](https://spring.io/guides/gs/gradle/).
-Java 17 or later is required for the build, and the application can run with Java 17 or newer.
+> [!IMPORTANT]
+>
+> - L'objectif est de **pratiquer Copilot**, pas de finir l'implémentation.
+> - Prendre le temps de **lire et critiquer** ce que Copilot propose avant de l'accepter.
+> - **Committer régulièrement** ses expérimentations à l'aide de la fonctionnalité Copilot Commit.
 
-You first need to clone the project locally:
+### Déroulement pratique
 
-```bash
-git clone https://github.com/spring-projects/spring-petclinic.git
-cd spring-petclinic
+#### 1. Explorer le projet : Mode Ask
+
+Le mode **Ask** permet d'interroger Copilot sur le code existant. C'est le point de départ indispensable avant toute implémentation : comprendre le projet avant d'agir dessus.
+
+> [!NOTE]
+> **Sélection de modèles** : Avant de commencer, dans l'interface Copilot Chat, sélectionner le modèle à utiliser pour cette exploration. La moitié du groupe utilise **GPT-\***, l'autre moitié **Claude Sonnet \***. Les résultats seront comparés à la fin de l'exercice.
+
+##### 1.1 Exploration globale du projet
+
+Commencer par demander à Copilot d'expliquer l'architecture générale de l'application, **sans cibler une feature particulière**.
+
+- Ouvrir GitHub Copilot Chat (`Ctrl+Alt+I`)
+- Sélectionner le scope `@workspace`
+- Poser les questions suivantes une par une, lire les réponses, noter ce qui surprend
+
+**Prompts suggérés :**
+
 ```
-If you are using Maven, you can start the application on the command-line as follows:
-
-```bash
-./mvnw spring-boot:run
-```
-With Gradle, the command is as follows:
-
-```bash
-./gradlew bootRun
-```
-
-You can then access the Petclinic at <http://localhost:8080/>.
-
-<img width="1042" alt="petclinic-screenshot" src="https://cloud.githubusercontent.com/assets/838318/19727082/2aee6d6c-9b8e-11e6-81fe-e889a5ddfded.png">
-
-You can, of course, run Petclinic in your favorite IDE.
-See below for more details.
-
-## Building a Container
-
-There is no `Dockerfile` in this project. You can build a container image (if you have a docker daemon) using the Spring Boot build plugin:
-
-```bash
-./mvnw spring-boot:build-image
+@workspace Explique l'architecture générale de ce projet Spring Boot MVC.
+Quels sont les packages principaux et leur rôle ?
 ```
 
-## In case you find a bug/suggested improvement for Spring Petclinic
-
-Our issue tracker is available [here](https://github.com/spring-projects/spring-petclinic/issues).
-
-## Database configuration
-
-In its default configuration, Petclinic uses an in-memory database (H2) which
-gets populated at startup with data. The h2 console is exposed at `http://localhost:8080/h2-console`,
-and it is possible to inspect the content of the database using the `jdbc:h2:mem:<uuid>` URL. The UUID is printed at startup to the console.
-
-A similar setup is provided for MySQL and PostgreSQL if a persistent database configuration is needed. Note that whenever the database type changes, the app needs to run with a different profile: `spring.profiles.active=mysql` for MySQL or `spring.profiles.active=postgres` for PostgreSQL. See the [Spring Boot documentation](https://docs.spring.io/spring-boot/how-to/properties-and-configuration.html#howto.properties-and-configuration.set-active-spring-profiles) for more detail on how to set the active profile.
-
-You can start MySQL or PostgreSQL locally with whatever installer works for your OS or use docker:
-
-```bash
-docker run -e MYSQL_USER=petclinic -e MYSQL_PASSWORD=petclinic -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=petclinic -p 3306:3306 mysql:9.6
+```
+@workspace Quelles validations existent déjà dans ce projet ?
+Liste les annotations utilisées et les validators custom.
 ```
 
-or
-
-```bash
-docker run -e POSTGRES_USER=petclinic -e POSTGRES_PASSWORD=petclinic -e POSTGRES_DB=petclinic -p 5432:5432 postgres:18.3
+```
+@workspace Quels tests controller existent ? Donne un exemple de ce qu'ils testent.
 ```
 
-Further documentation is provided for [MySQL](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/resources/db/mysql/petclinic_db_setup_mysql.txt)
-and [PostgreSQL](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/resources/db/postgres/petclinic_db_setup_postgres.txt).
+<details>
+<summary>Points clés attendus dans les réponses</summary>
 
-Instead of vanilla `docker` you can also use the provided `docker-compose.yml` file to start the database containers. Each one has a service named after the Spring profile:
+- **Package `owner`** : `Owner`, `OwnerController`, `PetController`, `VisitController`, `PetValidator`
+- **Package `vet`** : `Vet`, `VetController` (lecture seule actuellement)
+- **Package `system`** : `WelcomeController`, `CrashController`
+- **Validations existantes** : `@NotBlank`, `@Pattern(regexp = "\\d{10}")` sur `telephone`, `PetValidator` custom via `@InitBinder`
+- **Tests** : `OwnerControllerTests`, `PetControllerTests`, `VetControllerTests`, `ValidatorTests`
 
-```bash
-docker compose up mysql
+</details>
+
+##### 1.2 Exploration ciblée : Feature `preferredContactMethod`
+
+Avec une vision globale du projet, cibler la feature à implémenter : le **mode de contact préféré** d'un owner (voir [`backlog/preferred-contact-method.user-story.md`](backlog/preferred-contact-method.user-story.md)).
+
+**Prompts suggérés :**
+
+```
+@workspace Explique comment fonctionne la gestion des owners dans ce projet
+et liste les fichiers à modifier pour ajouter un champ preferredContactMethod.
 ```
 
-or
-
-```bash
-docker compose up postgres
+```
+@workspace Où est défini Owner et quels sont ses champs actuels ?
+Quels templates HTML affichent les données d'un owner ?
 ```
 
-## Test Applications
+<details>
+<summary>Fichiers impactés attendus</summary>
 
-At development time we recommend you use the test applications set up as `main()` methods in `PetClinicIntegrationTests` (using the default H2 database and also adding Spring Boot Devtools), `MySqlTestApplication` and `PostgresIntegrationTests`. These are set up so that you can run the apps in your IDE to get fast feedback and also run the same classes as integration tests against the respective database. The MySql integration tests use Testcontainers to start the database in a Docker container, and the Postgres tests use Docker Compose to do the same thing.
+| Fichier | Modification attendue |
+|---|---|
+| `Owner.java` | Ajout du champ `preferredContactMethod` (enum) et `email` |
+| `OwnerController.java` | Validation conditionnelle |
+| `createOrUpdateOwnerForm.html` | Ajout du select et du champ email |
+| `ownerDetails.html` | Affichage du mode de contact préféré |
+| `OwnerControllerTests.java` | Nouveaux cas de test |
+| `schema.sql` | Nouvelle colonne |
 
-## Compiling the CSS
+</details>
 
-There is a `petclinic.css` in `src/main/resources/static/resources/css`. It was generated from the `petclinic.scss` source, combined with the [Bootstrap](https://getbootstrap.com/) library. If you make changes to the `scss`, or upgrade Bootstrap, you will need to re-compile the CSS resources using the Maven profile "css", i.e. `./mvnw package -P css`. There is no build profile for Gradle to compile the CSS.
+##### 1.3 Mise en commun
 
-## Working with Petclinic in your IDE
+Comparer les réponses avec les personnes ayant utilisé l'autre modèle :
 
-### Prerequisites
+- Les réponses sont-elles équivalentes en termes de pertinence ?
+- L'un des modèles a-t-il identifié des fichiers supplémentaires ?
+- L'un des modèles a-t-il mieux contextualisé les règles métier ?
 
-The following items should be installed in your system:
+#### 2. Prompt Engineering
 
-- Java 17 or newer (full JDK, not a JRE)
-- [Git command line tool](https://help.github.com/articles/set-up-git)
-- Your preferred IDE
-  - Eclipse with the m2e plugin. Note: when m2e is available, there is a m2 icon in `Help -> About` dialog. If m2e is
-  not there, follow the installation process [here](https://www.eclipse.org/m2e/)
-  - [Spring Tools Suite](https://spring.io/tools) (STS)
-  - [IntelliJ IDEA](https://www.jetbrains.com/idea/)
-  - [VS Code](https://code.visualstudio.com)
+Le **Prompt Engineering** consiste à formuler ses demandes à Copilot de manière stratégique pour obtenir des réponses plus précises, plus utiles, et plus faciles à critiquer. Cette section présente **6 stratégies**, chacune appliquée à une feature différente du backlog.
 
-### Steps
+> [!NOTE]
+> Ces exercices se font principalement en mode **Ask**. Il ne s'agit pas encore d'implémenter : mais d'expérimenter la formulation des prompts et d'observer comment la qualité de la réponse change.
 
-1. On the command line run:
+##### 2.1 Stratégie Questions / Réponses : Welcome Page
 
-    ```bash
-    git clone https://github.com/spring-projects/spring-petclinic.git
-    ```
+**Principe :** Avant de proposer une implémentation, demander à Copilot de poser des questions pour clarifier les besoins. Utile quand les specs sont floues.
 
-1. Inside Eclipse or STS:
+**Feature :** [`backlog/welcome-page.user-story.md`](backlog/welcome-page.user-story.md)
 
-    Open the project via `File -> Import -> Maven -> Existing Maven project`, then select the root directory of the cloned repo.
+**Exercice :**
 
-    Then either build on the command line `./mvnw generate-resources` or use the Eclipse launcher (right-click on project and `Run As -> Maven install`) to generate the CSS. Run the application's main method by right-clicking on it and choosing `Run As -> Java Application`.
+Poser ce prompt dans Copilot Chat :
 
-1. Inside IntelliJ IDEA:
+```
+Avant de proposer une implémentation de la Welcome Page décrite dans le backlog,
+pose-moi les questions nécessaires pour clarifier les éléments qui la composeront.
+```
 
-    In the main menu, choose `File -> Open` and select the Petclinic [pom.xml](pom.xml). Click on the `Open` button.
+- Répondre aux questions de Copilot
+- Observer comment les réponses orientent la proposition finale
+- Refaire l'exercice **sans** cette étape de clarification et comparer la qualité des résultats
 
-    - CSS files are generated from the Maven build. You can build them on the command line `./mvnw generate-resources` or right-click on the `spring-petclinic` project then `Maven -> Generates sources and Update Folders`.
+<details>
+<summary>Questions typiques que Copilot devrait poser</summary>
 
-    - A run configuration named `PetClinicApplication` should have been created for you if you're using a recent Ultimate version. Otherwise, run the application by right-clicking on the `PetClinicApplication` main class and choosing `Run 'PetClinicApplication'`.
+- Quelles statistiques afficher (owners, pets, vets) ?
+- Faut-il un graphique ou une liste pour la répartition par type d'animal ?
+- Le classement des vétérinaires doit-il être limité (top 3, top 5) ?
+- Les données doivent-elles être chargées en temps réel ou mises en cache ?
 
-1. Navigate to the Petclinic
+</details>
 
-    Visit [http://localhost:8080](http://localhost:8080) in your browser.
+##### 2.2 Stratégie Avantages / Inconvénients : Authentification
 
-## Looking for something in particular?
+**Principe :** Demander à Copilot de proposer plusieurs approches et de comparer leurs avantages/inconvénients. Utile pour prendre une décision architecturale éclairée.
 
-|Spring Boot Configuration | Class or Java property files  |
-|--------------------------|---|
-|The Main Class | [PetClinicApplication](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/java/org/springframework/samples/petclinic/PetClinicApplication.java) |
-|Properties Files | [application.properties](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/resources) |
-|Caching | [CacheConfiguration](https://github.com/spring-projects/spring-petclinic/blob/main/src/main/java/org/springframework/samples/petclinic/system/CacheConfiguration.java) |
+**Feature :** [`backlog/authentification.user-story.md`](backlog/authentification.user-story.md)
 
-## Interesting Spring Petclinic branches and forks
+**Exercice :**
 
-The Spring Petclinic "main" branch in the [spring-projects](https://github.com/spring-projects/spring-petclinic)
-GitHub org is the "canonical" implementation based on Spring Boot and Thymeleaf. There are
-[quite a few forks](https://spring-petclinic.github.io/docs/forks.html) in the GitHub org
-[spring-petclinic](https://github.com/spring-petclinic). If you are interested in using a different technology stack to implement the Pet Clinic, please join the community there.
+```
+Propose 2 manières d'implémenter l'authentification dans cette application Spring Boot MVC
+et compare leurs avantages et inconvénients dans ce contexte.
+```
 
-## Interaction with other open-source projects
+- Lire les 2 approches proposées
+- Évaluer si les critères de comparaison sont pertinents pour ce projet
+- Choisir l'approche à implémenter et justifier le choix
 
-One of the best parts about working on the Spring Petclinic application is that we have the opportunity to work in direct contact with many Open Source projects. We found bugs/suggested improvements on various topics such as Spring, Spring Data, Bean Validation and even Eclipse! In many cases, they've been fixed/implemented in just a few days.
-Here is a list of them:
+<details>
+<summary>Approches typiquement proposées</summary>
 
-| Name | Issue |
-|------|-------|
-| Spring JDBC: simplify usage of NamedParameterJdbcTemplate | [SPR-10256](https://github.com/spring-projects/spring-framework/issues/14889) and [SPR-10257](https://github.com/spring-projects/spring-framework/issues/14890) |
-| Bean Validation / Hibernate Validator: simplify Maven dependencies and backward compatibility |[HV-790](https://hibernate.atlassian.net/browse/HV-790) and [HV-792](https://hibernate.atlassian.net/browse/HV-792) |
-| Spring Data: provide more flexibility when working with JPQL queries | [DATAJPA-292](https://github.com/spring-projects/spring-data-jpa/issues/704) |
+| Approche | Description | Avantage | Inconvénient |
+|---|---|---|---|
+| Spring Security + formulaire HTML | Config Java `SecurityFilterChain`, formulaire `login.html` | Natif Spring, facile à intégrer dans MVC | Config plus verbeuse |
+| Spring Security + HTTP Basic | Authentification via header HTTP | Simple, adapté aux API REST | Pas de session, UX dégradée pour une app web |
 
-## Contributing
+</details>
 
-The [issue tracker](https://github.com/spring-projects/spring-petclinic/issues) is the preferred channel for bug reports, feature requests and submitting pull requests.
+##### 2.3 Stratégie Étapes atomiques : Page animaux
 
-For pull requests, editor preferences are available in the [editor config](.editorconfig) for easy use in common text editors. Read more and download plugins at <https://editorconfig.org>. All commits must include a __Signed-off-by__ trailer at the end of each commit message to indicate that the contributor agrees to the Developer Certificate of Origin.
-For additional details, please refer to the blog post [Hello DCO, Goodbye CLA: Simplifying Contributions to Spring](https://spring.io/blog/2025/01/06/hello-dco-goodbye-cla-simplifying-contributions-to-spring).
+**Principe :** Demander à Copilot de décomposer l'implémentation en étapes atomiques, dans l'ordre le plus sûr (pas de cassure de l'existant). Utile pour les features qui touchent plusieurs couches.
 
-## License
+**Feature :** [`backlog/page-animaux.user-story.md`](backlog/page-animaux.user-story.md)
 
-The Spring PetClinic sample application is released under version 2.0 of the [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
+**Exercice :**
+
+```
+Décompose l'implémentation de la page de liste des animaux en étapes atomiques,
+dans l'ordre le plus sûr pour ne pas casser le comportement existant.
+```
+
+- Vérifier que chaque étape est indépendante et testable
+- Identifier l'étape la plus risquée et demander à Copilot comment la sécuriser
+
+<details>
+<summary>Décomposition attendue</summary>
+
+1. Vérifier si `PetRepository` expose déjà une méthode `findAll()` avec le owner chargé
+2. Si non, ajouter la méthode avec une requête JPQL `JOIN FETCH`
+3. Ajouter la méthode `showAllPets()` dans `PetController`
+4. Créer le template `pets/petsList.html`
+5. Ajouter le lien dans `fragments/layout.html`
+6. Écrire un test `PetControllerTests` pour la nouvelle route
+
+</details>
+
+##### 2.4 Stratégie de Rôles : Calendrier RDV
+
+**Principe :** Donner un rôle explicite à Copilot modifie le prisme de sa réponse. Un architecte pense différemment d'un développeur ou d'un reviewer.
+
+**Feature :** [`backlog/calendrier-rdv.user-story.md`](backlog/calendrier-rdv.user-story.md)
+
+> [!NOTE]
+> Ces rôles (Architecte, Software Engineer, Code Reviewer) sont les mêmes que ceux qui seront configurés en section 4.3 comme agents Custom Copilot. Cette stratégie de prompt est la version manuelle de ce que les agents automatiseront.
+
+**Exercice :**
+
+Poser le même sujet avec trois rôles différents et comparer :
+
+```
+Tu es un architecte Java/Spring.
+Propose une architecture pour implémenter le calendrier des RDV d'un vétérinaire.
+Fais des recommandations sur la modélisation des données et les choix techniques.
+```
+
+```
+Tu es un développeur Java/Spring senior.
+Implémente la route GET /vets/{id}/calendar qui retourne les visites d'un vétérinaire
+sur une période donnée. Donne le code complet du controller et du repository.
+```
+
+```
+Tu es un code reviewer Java/Spring.
+Analyse cette implémentation et liste les risques, les oublis et les améliorations possibles.
+[coller le code produit par le rôle précédent]
+```
+
+- Observer comment chaque rôle filtre l'information et le niveau de détail
+- Noter les points soulevés par le reviewer qui n'auraient pas été couverts spontanément
+
+##### 2.5 Stratégie d'Auto-correction : Modification des vétérinaires
+
+**Principe :** Demander à Copilot de critiquer sa propre proposition avant de la corriger. Cela simule une relecture croisée et détecte les oublis fréquents.
+
+**Feature :** [`backlog/modification-veterinaires.user-story.md`](backlog/modification-veterinaires.user-story.md)
+
+**Exercice :**
+
+Commencer par demander une première implémentation :
+
+```
+Implémente la route POST /vets/new pour créer un nouveau vétérinaire
+dans cette application Spring Boot MVC.
+```
+
+Puis demandez l'auto-correction :
+
+```
+Critique ta propre implémentation.
+Liste les bugs potentiels, les oublis de validation et les tests manquants.
+Corrige ta proposition en tenant compte de cette critique.
+```
+
+- Comparer la version initiale et la version corrigée
+- Identifier les types d'oublis que Copilot détecte (et ceux qu'il manque)
+
+<details>
+<summary>Oublis typiques que Copilot devrait détecter</summary>
+
+- Absence de `@Valid` sur le `@ModelAttribute` dans le controller
+- Pas de gestion du cas où le `BindingResult` contient des erreurs
+- Redirection manquante après sauvegarde réussie (pattern Post/Redirect/Get)
+- Aucun test pour le cas de formulaire invalide
+- `@InitBinder` manquant pour protéger le champ `id`
+
+</details>
+
+##### 2.6 Stratégie Zero / One / Few Shot : Calendrier JSON
+
+**Principe :** Fournir des exemples dans le prompt améliore la cohérence et le format des réponses générées. Plus on donne d'exemples, plus la génération est précise.
+
+**Feature :** [`backlog/calendrier-rdv.user-story.md`](backlog/calendrier-rdv.user-story.md)
+
+**Exercice : Zero Shot (sans exemple) :**
+
+```
+Génère un exemple de réponse JSON pour l'endpoint GET /vets/1/calendar.
+```
+
+**Exercice : One Shot (un exemple) :**
+
+```
+Génère un exemple de réponse JSON pour l'endpoint GET /vets/1/calendar.
+Voici le format attendu pour un événement :
+{ "id": 1, "date": "2026-04-22", "petName": "Léo", "ownerName": "Jean Martin", "description": "Contrôle annuel" }
+```
+
+**Exercice : Few Shot (deux exemples) :**
+
+```
+Génère 5 événements de calendrier au format JSON pour le vétérinaire 1.
+Voici deux exemples :
+{ "id": 1, "date": "2026-04-22", "petName": "Léo", "ownerName": "Jean Martin", "description": "Contrôle annuel" }
+{ "id": 2, "date": "2026-04-23", "petName": "Mimi", "ownerName": "Sophie Durand", "description": "Vaccination" }
+```
+
+- Comparer les trois outputs : cohérence du format, pertinence du contenu, respect du schema
+- Que se passe-t-il si un champ `vetId` est ajouté dans l'exemple ?
+
+#### 3. Mode Plan : Feature `preferredContactMethod`
+
+Le **mode Plan** de Copilot (mode Agentique) génère un plan de mise en œuvre complet avant d'écrire du code. Il analyse le projet, identifie les fichiers impactés et propose une séquence d'actions.
+
+> [!NOTE]
+> Le mode Plan est distinct du mode Ask : il prend des initiatives, explore activement le codebase, et liste les modifications qu'il va effectuer **avant** de les appliquer. Il est possible de valider ou de rejeter chaque étape.
+
+##### 3.1 Générer le plan
+
+- Ouvrir Copilot Chat et sélectionner le **mode Agent** (icône dans la barre de chat)
+- Soumettre le prompt suivant :
+
+```
+Planifie l'ajout d'un champ preferredContactMethod sur Owner
+avec validation métier conditionnelle, affichage UI et tests.
+Commence par lister les fichiers que tu vas modifier avant de toucher au code.
+```
+
+- Lire le plan généré **avant** d'approuver quoi que ce soit
+- Vérifier que les fichiers listés correspondent à ceux identifiés en section 1.2
+
+##### 3.2 Évaluer le plan
+
+Avant d'appliquer, se poser ces questions :
+
+- Le plan respecte-t-il les 5 règles métier de l'US [`backlog/preferred-contact-method.user-story.md`](backlog/preferred-contact-method.user-story.md) ?
+- Les 4 cas de test minimum sont-ils prévus ?
+- Une migration SQL est-elle incluse ?
+- Y a-t-il des étapes à supprimer ou à ajouter ?
+
+<details>
+<summary>Plan attendu (référence)</summary>
+
+1. Créer l'enum `ContactMethod { PHONE, EMAIL, POSTAL_MAIL }`
+2. Ajouter `email` (optionnel) et `preferredContactMethod` à `Owner.java`
+3. Créer `OwnerValidator.java` implémentant `org.springframework.validation.Validator`
+4. Enregistrer le validator dans `OwnerController` via `@InitBinder`
+5. Mettre à jour `createOrUpdateOwnerForm.html` (select + champ email)
+6. Mettre à jour `ownerDetails.html`
+7. Mettre à jour `schema.sql`
+8. Ajouter 4 cas dans `OwnerControllerTests.java`
+
+</details>
+
+##### 3.3 Appliquer le plan
+
+- Approuver le plan et laisser Copilot appliquer les modifications
+- Après chaque fichier modifié, relire le code généré
+- Identifier au moins une chose à corriger ou améliorer dans le code produit
+
+#### 4. Custom Copilot
+
+Les fonctionnalités **Custom Copilot** permettent de personnaliser le comportement de l'assistant : lui donner un contexte projet permanent (Instructions), créer des prompts réutilisables (Prompts), définir des agents avec des rôles spécialisés (Agents), et automatiser des actions récurrentes (Skills).
+
+##### 4.1 Instructions : Contextualiser Copilot sur le projet
+
+Les **Instructions** sont des directives permanentes qui s'appliquent à toutes les conversations Copilot dans le workspace. Elles permettent d'orienter les propositions sans répéter le contexte à chaque prompt.
+
+**Exercice :**
+
+Créer le fichier `.github/copilot-instructions.md` à la racine du projet avec le contenu suivant :
+
+```markdown
+Tu travailles sur une application Spring Boot MVC existante (Spring PetClinic).
+Privilégie des changements minimaux et lisibles.
+Ajoute des validations côté serveur quand une règle métier est introduite.
+Propose des tests quand la logique métier change.
+Respecte les patterns existants : @InitBinder pour les validators, Thymeleaf pour les vues.
+```
+
+Puis comparer :
+
+1. **Sans instructions** : demander à Copilot d'ajouter un champ `email` à `Owner`
+2. **Avec instructions** : refaire la même demande après avoir créé le fichier
+
+- Observer si Copilot adapte son style (minimal vs sur-ingéniéré)
+- Note-t-il spontanément qu'il faut un test ?
+- Propose-t-il d'utiliser `@InitBinder` sans le demander explicitement ?
+
+##### 4.2 Prompts : Créer un prompt réutilisable
+
+Les **Prompts** sont des fichiers `.prompt.md` enregistrés dans VS Code qui peuvent être invoqués rapidement depuis le chat. Ils évitent de retaper des instructions complexes.
+
+**Exercice :**
+
+Créer un fichier de prompt pour la revue de code Spring. Dans VS Code, ouvrir la palette de commandes (`Ctrl+Shift+P`) et chercher **"Copilot: New Prompt File"**, ou créer manuellement un fichier `.prompt.md` dans le dossier des prompts VS Code.
+
+Contenu suggéré :
+
+```markdownmode: askTu es un reviewer Java/Spring.
+Analyse le fichier sélectionné et liste :
+1. Les violations de bonnes pratiques Spring MVC
+2. Les validations manquantes
+3. Les cas de test non couverts
+4. Les risques de sécurité éventuels
+Sois concis et priorise par criticité.
+```
+
+- Invoquer ce prompt sur `OwnerController.java`
+- L'invoquer sur `VetController.java`
+- Comparer les points soulevés dans les deux cas
+
+##### 4.3 Agents : Rôles spécialisés
+
+Les **Agents** Custom Copilot sont des configurations d'IA avec un rôle, des instructions et des outils spécifiques. Ils permettent de déléguer des tâches répétitives à un assistant pré-configuré.
+
+> [!NOTE]
+> La **stratégie de rôles** a déjà été pratiquée manuellement en section 2.4. Les agents Custom Copilot automatisent cette personnalisation : il n'est plus nécessaire de répéter le rôle dans chaque prompt.
+
+Les trois agents à configurer correspondent aux rôles de la section 2.4 :
+
+###### Agent Architecte
+
+**Rôle :** Définir l'architecture à partir des specs d'une User Story.
+
+**Instructions :**
+```
+Tu es un architecte Java/Spring Senior.
+À partir d'une User Story, tu proposes :
+- La modélisation des données (entités, champs, relations)
+- Les couches impactées (controller, service, repository, view)
+- Les choix techniques justifiés (annotations, patterns)
+Tu ne produis pas de code, seulement des recommandations structurées.
+```
+
+**Exercice :** Lui soumettre l'US [`backlog/calendrier-rdv.user-story.md`](backlog/calendrier-rdv.user-story.md) et comparer sa réponse avec ce qui a été obtenu en 2.4.
+
+###### Agent Software Engineer
+
+**Rôle :** Produire une implémentation complète à partir d'un plan ou d'une spec.
+
+**Instructions :**
+```
+Tu es un développeur Java/Spring Senior.
+Tu produis une implémentation complète, compilable et testée.
+Tu respectes les patterns existants du projet (voir .github/copilot-instructions.md).
+Tu inclus systématiquement : le controller, le validator si besoin, la vue Thymeleaf, et au moins 2 tests.
+```
+
+**Exercice :** Lui demander d'implémenter l'étape 3 du plan généré en section 3 (création du `OwnerValidator`).
+
+###### Agent Code Reviewer
+
+**Rôle :** Réviser une implémentation et identifier les risques.
+
+**Instructions :**
+```
+Tu es un code reviewer Java/Spring.
+Tu analyses le code soumis et listes par ordre de criticité :
+- Les incohérences avec les règles métier
+- Les validations manquantes ou incorrectes
+- Les oublis de tests
+- Les messages d'erreur manquants ou peu clairs
+- Les risques de sécurité (OWASP Top 10)
+Tu critiques sans proposer de correction : c'est au développeur de corriger.
+```
+
+**Exercice :** Soumettre le code produit par l'Agent Software Engineer à cet agent. Comparer avec l'auto-correction de la section 2.5.
+
+#### 5. Model Context Protocol (MCP)
+
+Le **Model Context Protocol (MCP)** est un protocole ouvert qui permet aux modèles d'IA d'accéder à des outils et des sources de données externes de manière standardisée. Dans VS Code, Copilot peut utiliser des serveurs MCP pour enrichir ses réponses avec des données en temps réel.
+
+##### 5.1 Rechercher une MCP utile pour JPA
+
+**Exercice :**
+
+Explorer le registre des serveurs MCP disponibles et identifier un serveur qui serait utile pour le développement JPA / base de données dans ce projet.
+
+Pistes de recherche :
+- [MCP Servers Registry](https://github.com/modelcontextprotocol/servers)
+- [Awesome MCP Servers](https://github.com/punkpeye/awesome-mcp-servers)
+
+Questions à se poser :
+- Ce serveur MCP permettrait-il à Copilot de lire le schéma de la base de données directement ?
+- Pourrait-il générer des requêtes JPQL ou valider des mappings JPA ?
+- Quel est l'impact sur la pertinence des suggestions Copilot pour les repositories ?
+
+##### 5.2 Configurer le serveur MCP (si disponible)
+
+Si un serveur MCP pertinent a été identifié et est configurable localement :
+
+1. Ajouter sa configuration dans `.vscode/mcp.json`
+2. Reconnecter Copilot au serveur
+3. Tester en demandant à Copilot de générer une requête JPQL sur la base des entités du projet
+
+<details>
+<summary>Exemple de configuration MCP pour une base de données</summary>
+
+```json
+{
+  "servers": {
+    "sqlite-db": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["mcp-server-sqlite", "--db-path", "./petclinic.db"]
+    }
+  }
+}
+```
+
+> Ce type de configuration permet à Copilot de lire le schéma et d'exécuter des requêtes SQL via le MCP.
+
+</details>
