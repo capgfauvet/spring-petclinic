@@ -21,6 +21,11 @@ L'objectif n'est pas de livrer une implémentation complète, mais de **pratique
 > - Prendre le temps de **lire et critiquer** ce que Copilot propose avant de l'accepter.
 > - **Committer régulièrement** ses expérimentations à l'aide de la fonctionnalité Copilot Commit.
 
+### Prérequis
+
+- Dézipper le projet et l'ouvrir dans VSCode
+- Faire un git init pour initialiser le projet afin de pouvoir créer des branches et commiter des fichiers
+
 ### Déroulement pratique
 
 #### 1. Explorer le projet : Mode Ask
@@ -35,23 +40,22 @@ Le mode **Ask** permet d'interroger Copilot sur le code existant. C'est le point
 Commencer par demander à Copilot d'expliquer l'architecture générale de l'application, **sans cibler une feature particulière**.
 
 - Ouvrir GitHub Copilot Chat (`Ctrl+Alt+I`)
-- Sélectionner le scope `@workspace`
-- Poser les questions suivantes une par une, lire les réponses, noter ce qui surprend
+- Poser les questions suivantes une par une, lire ses réflexions, lire la réponse 
 
 **Prompts suggérés :**
 
 ```
-@workspace Explique l'architecture générale de ce projet Spring Boot MVC.
+Explique l'architecture générale de ce projet Spring Boot MVC.
 Quels sont les packages principaux et leur rôle ?
 ```
 
 ```
-@workspace Quelles validations existent déjà dans ce projet ?
+Quelles validations existent déjà dans ce projet ?
 Liste les annotations utilisées et les validators custom.
 ```
 
 ```
-@workspace Quels tests controller existent ? Donne un exemple de ce qu'ils testent.
+Quels tests controller existent ? Donne un exemple de ce qu'ils testent.
 ```
 
 <details>
@@ -67,17 +71,19 @@ Liste les annotations utilisées et les validators custom.
 
 ##### 1.2 Exploration ciblée : Feature `preferredContactMethod`
 
+Créer une nouvelle branche git et ouvrir un nouveau chat en mode **Agent**. Lier le fichier de l'US au prompt. 
+
 Avec une vision globale du projet, cibler la feature à implémenter : le **mode de contact préféré** d'un owner (voir [`backlog/preferred-contact-method.user-story.md`](backlog/preferred-contact-method.user-story.md)).
 
 **Prompts suggérés :**
 
 ```
-@workspace Explique comment fonctionne la gestion des owners dans ce projet
+Explique comment fonctionne la gestion des owners dans ce projet
 et liste les fichiers à modifier pour ajouter un champ preferredContactMethod.
 ```
 
 ```
-@workspace Où est défini Owner et quels sont ses champs actuels ?
+Où est défini Owner et quels sont ses champs actuels ?
 Quels templates HTML affichent les données d'un owner ?
 ```
 
@@ -95,13 +101,7 @@ Quels templates HTML affichent les données d'un owner ?
 
 </details>
 
-##### 1.3 Mise en commun
-
-Comparer les réponses avec les personnes ayant utilisé l'autre modèle :
-
-- Les réponses sont-elles équivalentes en termes de pertinence ?
-- L'un des modèles a-t-il identifié des fichiers supplémentaires ?
-- L'un des modèles a-t-il mieux contextualisé les règles métier ?
+Lancer le projet avec la commande : `.\mvnw spring-boot:run` dans un bash ou `.\mvnw.cmd spring-boot:run` dans powershell
 
 #### 2. Prompt Engineering
 
