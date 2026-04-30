@@ -24,7 +24,7 @@ Toutes les pages doivent utiliser le layout maître partagé via l'inclusion de 
 ```
 
 - Le deuxième argument est le nom de la section de navigation active (ex : `'owners'`, `'vets'`).
-- Ne jamais dupliquer le `<head>`, la navigation ou le pied de page — ils se trouvent dans `fragments/layout.html`.
+- Ne jamais dupliquer le `<head>`, la navigation ou le pied de page, ils se trouvent dans `fragments/layout.html`.
 
 ## Liaison de données
 
@@ -49,7 +49,7 @@ Utiliser `th:each` pour itérer sur des collections :
 
 ## Construction d'URL
 
-Toujours utiliser `@{}` pour les URLs — ne jamais coder les chemins en dur :
+Toujours utiliser `@{}` pour les URLs, ne jamais coder les chemins en dur :
 
 ```html
 <!-- Static path -->
@@ -99,7 +99,7 @@ Utiliser l'opérateur null-safe `?.` lorsqu'une propriété peut être nulle :
 
 ## Règles générales
 
-- Ne pas intégrer de logique métier dans les templates — déléguer au controller/modèle.
+- Ne pas intégrer de logique métier dans les templates mais déléguer au controller/modèle.
 - Ne pas utiliser JavaScript inline pour des données qui appartiennent au modèle.
 - Garder les templates lisibles : une préoccupation par template, utiliser les fragments pour le balisage répété.
 - Suivre la convention de nommage existante : sous-répertoires `owners/`, `pets/`, `vets/` sous `templates/`.

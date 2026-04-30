@@ -29,7 +29,7 @@ class OwnerController {
 ### Déclaration de la classe
 
 - Utiliser `@Controller` (pas `@RestController` sauf si JSON/XML est retourné directement).
-- Les controllers sont **package-private** — pas de modificateur `public` sur la classe.
+- Les controllers sont **package-private**, donc pas de modificateur `public` sur la classe.
 - Déclarer le chemin de base sur la classe avec `@RequestMapping`.
 
 ```java
@@ -107,7 +107,7 @@ public String showVetList(@RequestParam(defaultValue = "1") int page, Model mode
 
 ### Hiérarchie d'héritage
 
-Réutiliser les classes de base existantes — ne pas introduire de nouvelles classes de base :
+Réutiliser les classes de base existantes / ne pas introduire de nouvelles classes de base :
 
 | Classe de base | Ajoute | Utiliser pour |
 |---|---|---|

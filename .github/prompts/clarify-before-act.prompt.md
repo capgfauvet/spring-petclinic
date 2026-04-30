@@ -15,14 +15,14 @@ Avant de traiter toute demande, conduire un entretien de clarification structur�
 
 ## Processus
 
-**Étape 1 — Analyser la demande**
+**Étape 1 : Analyser la demande**
 
 Lis attentivement la demande de l'utilisateur. Identifie :
 - les éléments clairs et actionnables,
 - les zones d'ombre, ambiguïtés ou hypothèses implicites,
 - les décisions structurantes qui orientent l'implémentation.
 
-**Étape 2 — Poser les questions de clarification**
+**Étape 2 : Poser les questions de clarification**
 
 Pose **uniquement** les questions indispensables pour avancer. Groupe-les par thème si plusieurs sujets sont concernés. Formule chaque question de manière précise et fermée ou à choix multiples lorsque c'est possible en utilisant #ask_questions.
 
@@ -31,11 +31,11 @@ Pose **uniquement** les questions indispensables pour avancer. Groupe-les par th
 > - L'hypothèse par défaut présente un risque ou un coût non négligeable si elle est fausse.
 > - La clarification prend moins de temps que corriger une mauvaise implémentation.
 
-**Étape 3 — Récapituler les choix retenus**
+**Étape 3 : Récapituler les choix retenus**
 
 Avant d'agir, énonce brièvement les décisions prises (issues des réponses ou de tes hypothèses par défaut).
 
-**Étape 4 — Implémenter**
+**Étape 4 : Implémenter**
 
 Exécute la tâche en respectant scrupuleusement les réponses collectées et les décisions récapitulées.
 

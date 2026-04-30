@@ -11,7 +11,7 @@ Conventions pour les repositories Spring Data, les schémas SQL et les scripts d
 
 ### Déclaration de l'interface
 
-Étendre `JpaRepository<T, Integer>` — utiliser `Integer` comme type d'ID pour correspondre à `BaseEntity` :
+Étendre `JpaRepository<T, Integer>` et utiliser `Integer` comme type d'ID pour correspondre à `BaseEntity` :
 
 ```java
 public interface OwnerRepository extends JpaRepository<Owner, Integer> { ... }
@@ -112,7 +112,7 @@ ALTER TABLE pets ADD CONSTRAINT fk_pets_types  FOREIGN KEY (type_id)  REFERENCES
 
 ### Règles DML (data.sql)
 
-- Uniquement des instructions `INSERT` — jamais `DROP`, `TRUNCATE` ou `DELETE`.
+- Uniquement des instructions `INSERT`, jamais `DROP`, `TRUNCATE` ou `DELETE`.
 - Garder les données de démarrage minimales et réalistes (cohérentes avec le domaine de la clinique vétérinaire).
 - Respecter l'ordre des insertions selon les dépendances de clés étrangères (parents avant enfants).
 
@@ -123,4 +123,4 @@ ALTER TABLE pets ADD CONSTRAINT fk_pets_types  FOREIGN KEY (type_id)  REFERENCES
 - Ne jamais mélanger DDL et DML dans le même script.
 - Ne jamais écrire du SQL natif dans un `@Query` sauf si JPQL ne peut pas exprimer la requête.
 - Les modifications de schéma doivent être répercutées dans les trois dossiers de profil (hsqldb, mysql, postgres).
-- Garder les repositories comme interfaces — pas de classes d'implémentation annotées `@Repository` sauf si inévitable.
+- Garder les repositories comme interfaces, pas de classes d'implémentation annotées `@Repository` sauf si inévitable.
