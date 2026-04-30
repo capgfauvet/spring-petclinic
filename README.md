@@ -1,36 +1,24 @@
 ﻿# Lab IA Agentique L1
 
-> [!TIP]
-> Ce TP s'appuie sur **Spring PetClinic**, une application Spring Boot MVC de référence.
-> La documentation complète du repository d'origine est disponible dans [`pet-clinic.md`](pet-clinic.md).
-
-## TP : Découverte des modes et fonctionnalités de Copilot
-
-> [!NOTE]
-> Le backlog du projet est disponible dans le dossier [`backlog/`](backlog/). Chaque fichier `.user-story.md` décrit une feature avec ses règles métier. Ces US servent de support tout au long du TP.
-
-### Présentation du TP
-
-Ce TP est une initiation aux différents modes et fonctionnalités de GitHub Copilot dans le cadre du développement d'une application Spring Boot MVC existante : **Spring PetClinic**.
+Ce TP est une initiation aux différents modes et fonctionnalités de GitHub Copilot dans le cadre du développement de **[Spring PetClinic](pet-clinic.md)**, une application de référence du projet [Spring](https://spring.io/) basée sur Spring Boot MVC.
 
 L'objectif n'est pas de livrer une implémentation complète, mais de **pratiquer chaque mode de Copilot** sur des exercices concrets, de comparer les résultats et de développer un sens critique sur les propositions générées.
 
-> [!IMPORTANT]
->
-> - L'objectif est de **pratiquer Copilot**, pas de finir l'implémentation.
-> - Prendre le temps de **lire et critiquer** ce que Copilot propose avant de l'accepter.
-> - **Committer régulièrement** ses expérimentations à l'aide de la fonctionnalité Copilot Commit.
+## TP : Découverte des modes et fonctionnalités de Copilot
+
+Le backlog du projet est disponible dans le dossier [`backlog/`](backlog/). Chaque fichier `.user-story.md` décrit une feature avec ses règles métier et sert de support aux exercices.
+
+Points clés à garder en tête tout au long du TP :
+
+- L'objectif est de **pratiquer Copilot**, pas de finir l'implémentation.
+- Prendre le temps de **lire et critiquer** ce que Copilot propose avant de l'accepter.
+- **Committer régulièrement** ses expérimentations à l'aide de la fonctionnalité Copilot Commit.
 
 ### Prérequis
 
-- Dézipper le projet et l'ouvrir dans VSCode
-- Faire un git init pour initialiser le projet afin de pouvoir créer des branches et commiter des fichiers
-
-> [!TIP]
-> Démarrer le projet : Exécuter la commande : `.\mvnw spring-boot:run` dans un bash ou `.\mvnw.cmd spring-boot:run` dans PowerShell.
-
-> [!IMPORTANT]
-> Commit à chaque fin d'exercice.
+1. Dézipper le projet et l'ouvrir dans VSCode.
+2. Faire un `git init` pour pouvoir créer des branches et commiter.
+3. Démarrer le projet : `.\mvnw.cmd spring-boot:run` (PowerShell) ou `.\mvnw spring-boot:run` (bash).
 
 ### Déroulement pratique
 
