@@ -128,7 +128,7 @@ Ce projet embarque trois **Custom Agents** accessibles via le sélecteur de mode
 > [!IMPORTANT]
 > **Biais de confirmation** : un agent qui a produit du code aura tendance à valider sa propre production lors de la revue. Pour éviter ce biais, **ouvrir une nouvelle conversation** entre chaque agent.
 
-#### 6.1 Agent Architect — Planifier la feature
+#### 6.1 Agent Architect : Planifier la feature
 
 Dans un nouveau chat, sélectionner l'agent **Architect**, puis :
 
@@ -139,7 +139,7 @@ Pour chaque tâche, précise : la couche impactée, les fichiers à créer ou mo
 Termine par les critères d'acceptance techniques que le développeur devra valider.
 ```
 
-#### 6.2 Agent Software Engineer — Implémenter
+#### 6.2 Agent Software Engineer : Implémenter
 
 Dans une **nouvelle conversation**, sélectionner l'agent **Software Engineer**, puis :
 
@@ -149,7 +149,7 @@ Produis : le controller avec les routes GET et POST, la vue Thymeleaf, le valida
 Respecte les patterns existants du projet documentés dans #file:back.instructions.md et #file:front.instructions.md.
 ```
 
-#### 6.3 Agent Code Reviewer — Réviser
+#### 6.3 Agent Code Reviewer : Réviser
 
 Dans une **nouvelle conversation**, sélectionner l'agent **Code Reviewer**, puis soumettre le code produit :
 
@@ -159,12 +159,12 @@ Liste par ordre de criticité : les incohérences avec les règles métier, les 
 Ne corrige pas : liste uniquement les observations.
 ```
 
-### 8. Stratégie Zero / One / Few Shots : Extraction d'une Note d'Accueil
+### 7. Stratégie Zero / One / Few Shots : Extraction d'une Note d'Accueil
 
 ![Mode Ask](https://img.shields.io/badge/Mode-Ask-orange)
 ![Prompt Engineering : Few-Shot](https://img.shields.io/badge/Prompt%20Engineering-Strat%C3%A9gie%20Few--Shot-informational)
 
-**Mise en situation :** L'agent d'accueil de la clinique prend des notes au fil de l'eau pendant les appels téléphoniques. Pour lui faire gagner du temps, on souhaite — à terme — que ces notes soient automatiquement converties en JSON afin de pré-remplir le formulaire de création d'une `Visit`. Avant d'industrialiser quoi que ce soit dans le code, on cherche d'abord à valider par le prompt qu'un LLM peut produire un JSON exploitable et conforme aux conventions du domaine (`Owner`, `Pet`, `Visit`).
+**Mise en situation :** L'agent d'accueil de la clinique prend des notes au fil de l'eau pendant les appels téléphoniques. Pour lui faire gagner du temps, on souhaite à terme que ces notes soient automatiquement converties en JSON afin de pré-remplir le formulaire de création d'une `Visit`. Avant d'industrialiser quoi que ce soit dans le code, on cherche d'abord à valider par le prompt qu'un LLM peut produire un JSON exploitable et conforme aux conventions du domaine (`Owner`, `Pet`, `Visit`).
 
 Fournir des exemples dans un prompt ne sert pas qu'à fixer un format : c'est aussi le moyen le plus court de transmettre une **politique métier tacite** (cas particuliers, valeurs par défaut) que les instructions textuelles peinent à décrire. Plus les exemples couvrent d'edge-cases, plus le modèle généralise la bonne règle. Lancer successivement les trois prompts ci-dessous sur le même jeu de notes et comparer les sorties.
 
@@ -215,7 +215,7 @@ Notes à convertir :
 3. "Un monsieur arrive avec un chat blessé, pas dans le système, à passer en urgence."
 ```
 
-### 9. Générer des tests avec un Custom Skill
+### 8. Générer des tests avec un Custom Skill
 
 ![Mode Agent](https://img.shields.io/badge/Mode-Agent-blueviolet)
 ![Skill : generate-tests](https://img.shields.io/badge/Skill-generate--tests-teal)
@@ -225,7 +225,7 @@ Ce projet embarque un **Custom Skill** dédié à la génération de tests JUnit
 
 Un skill est un fichier de connaissances métier invoquable à la demande dans le chat Agent via `#generate-tests`. Contrairement aux instructions (injectées automatiquement), un skill n'est activé que quand on le cite explicitement.
 
-**Contexte :** l'étape 7 a produit un nouveau controller `POST /vets/new`. La classe `VetControllerTests` existante ne couvre que la liste et l'endpoint JSON — les nouveaux cas d'usage ne sont pas testés.
+**Contexte :** l'étape 7 a produit un nouveau controller `POST /vets/new`. La classe `VetControllerTests` existante ne couvre que la liste et l'endpoint JSON. Les nouveaux cas d'usage ne sont pas testés.
 
 **Exercice :**
 
@@ -242,7 +242,7 @@ Ouvrir un chat Agent, puis invoquer le skill en ciblant le controller modifié :
 > [!TIP]
 > Le skill `#conventional-commit` fonctionne de la même façon : invoquer `#conventional-commit` dans un chat Agent pour générer un message de commit standardisé sur les changements en cours.
 
-### 10. Model Context Protocol (MCP)
+### 9. Model Context Protocol (MCP)
 
 ![MCP](https://img.shields.io/badge/Tool-MCP-gold)
 
