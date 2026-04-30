@@ -88,8 +88,12 @@ Demander à Copilot de proposer plusieurs approches et de comparer leurs avantag
 ![Infra Badge](https://img.shields.io/badge/Prompt--Engineering-Stratégie--Avantages--Inconvénients-informational)
 
 ```
-Propose 2 manières d'implémenter l'authentification dans cette application Spring Boot MVC
-et compare leurs avantages et inconvénients dans ce contexte.
+Tu es architecte Java/Spring sur ce projet.
+Pour la feature preferredContactMethod, compare 2 approches :
+A) Validation via annotations Bean Validation sur le modèle Owner
+B) Validation via un validator Spring dédié branché au controller
+Pour chaque approche, donne : avantages, inconvénients, lisibilité, maintenabilité, risques de régression et impact sur les tests
+Termine par une recommandation argumentée pour ce projet, avec un plan minimal en 5 étapes.
 ```
 
 ##### 4 Implémentation de la page Page des Animaux
