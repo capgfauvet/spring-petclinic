@@ -76,7 +76,7 @@ Avant de proposer une implémentation de la Welcome Page décrite dans le backlo
 Faire l'implémentation toujours via le Mode Agent, et vérifier dans l'application la Page Welcome.
 
 
-##### 3. Implémentation d'une méthode contact préféré
+#### 3. Implémentation d'une méthode contact préféré
 
 **Feature :** [`backlog/preferred-contact-method.user-story.md`](backlog/preferred-contact-method.user-story.md)
 
@@ -412,7 +412,20 @@ Si un serveur MCP pertinent a été identifié et est configurable localement :
 
 </details>
 
+##### 5.3 Utilisation du MCP via un prompt
 
+**Objectif pédagogique :** utiliser MCP comme un outil d'observabilité de la donnée (et non de correction automatique) pour détecter des anomalies utiles au développement.
+
+**Prompt réutilisable :** [`.github/prompts/mcp-db-data-quality-alert.prompt.md`](.github/prompts/mcp-db-data-quality-alert.prompt.md)
+
+> [!NOTE]
+> Le jeu de données contient volontairement un cas de doublon sur les owners afin de valider visuellement que le monitoring détecte une anomalie réelle.
+
+Dans le chat, éxécuter le prompt [`mcp-db-data-quality-alert.prompt.md`](.github/prompts/mcp-db-data-quality-alert.prompt.md).
+
+```
+/mcp-db-data-quality-alert Trouve les homonymes et les doublons de contacts dans les owners, puis génère un rapport de monitoring des anomalies.
+```
 
 --- 
 
