@@ -1,26 +1,30 @@
-# Copilot Instructions
+# Instructions Copilot
 
-Project-wide Copilot directives for the Spring PetClinic application. These instructions apply to all Copilot conversations in this workspace.
+Directives Copilot globales pour l'application Spring PetClinic. Ces instructions s'appliquent à toutes les conversations Copilot dans ce workspace.
 
-## Project context
-- Stack: Java, Spring Boot, Thymeleaf, JPA, JUnit.
-- Build tools: Maven and Gradle wrappers are available.
-- Main goal: keep code readable, testable, and safe.
+## Contexte du projet
 
-## Product context
-- This application is a veterinary clinic management system used by clinic staff.
-- Main business flows: search/manage owners, register/update pets, track visits, and list vets.
-- Typical data model links: one owner to many pets, one pet to many visits.
-- Any change should preserve day-to-day usability for front-desk and veterinarian workflows.
+- Stack : Java, Spring Boot, Thymeleaf, JPA, JUnit.
+- Outils de build : les wrappers Maven et Gradle sont disponibles.
+- Objectif principal : maintenir un code lisible, testable et sûr.
 
-## Coding rules
-- Prefer small, focused changes.
-- Keep existing package structure and naming style.
-- Add or update tests for behavior changes.
-- Avoid breaking public behavior unless explicitly requested.
-- Do not introduce secrets, tokens, or environment-specific values.
+## Contexte produit
 
-## Pull request quality
-- Explain what changed and why.
-- List risks, assumptions, and manual test steps when relevant.
-- If uncertain, propose options with trade-offs before large refactors.
+- Cette application est un système de gestion de clinique vétérinaire utilisé par le personnel de la clinique.
+- Flux métier principaux : recherche/gestion des propriétaires, enregistrement/mise à jour des animaux, suivi des visites et liste des vétérinaires.
+- Modèle de données typique : un propriétaire possède plusieurs animaux, un animal a plusieurs visites.
+- Toute modification doit préserver l'utilisabilité quotidienne pour les workflows des agents d'accueil et des vétérinaires.
+
+## Règles de codage
+
+- Privilégier des changements petits et ciblés.
+- Conserver la structure de packages et le style de nommage existants.
+- Ajouter ou mettre à jour les tests lors de changements de comportement.
+- Éviter de casser le comportement public sauf si explicitement demandé.
+- Ne pas introduire de secrets, tokens ou valeurs spécifiques à un environnement.
+
+## Qualité des pull requests
+
+- Expliquer ce qui a changé et pourquoi.
+- Lister les risques, hypothèses et étapes de test manuel lorsque c'est pertinent.
+- En cas d'incertitude, proposer des options avec leurs compromis avant les refactorisations importantes.

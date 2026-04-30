@@ -1,34 +1,35 @@
 ---
 name: generate-tests
-description: 'Generate JUnit tests for a Spring Boot class (service, controller, repository). Use when adding tests for new or existing code in this project.'
-argument-hint: 'Class name or path to the class to test'
+description: 'Générer des tests JUnit pour une classe Spring Boot (service, controller, repository). À utiliser pour ajouter des tests à du code nouveau ou existant dans ce projet.'
+argument-hint: 'Nom de la classe ou chemin vers la classe à tester'
 ---
 
-# Generate Tests
+# Génération de tests
 
 Workflow pour générer des classes de test JUnit 5 pour les controllers, services et repositories Spring Boot.
 
-## When to Use
-- A new service, controller, or repository has no test coverage.
-- An existing class needs additional test cases after a change.
+## Quand utiliser
 
-## Procedure
+- Un nouveau service, controller ou repository n'a pas de couverture de test.
+- Une classe existante a besoin de cas de test supplémentaires après une modification.
 
-1. Read the target class to understand its public methods and dependencies.
-2. Locate the matching test file under `src/test/java` (mirror the source package).
-3. Generate a JUnit 5 test class following the patterns below.
-4. Place mocks with `@MockitoExtension` for unit tests, or use `@SpringBootTest` + `@Transactional` for integration tests.
+## Procédure
+
+1. Lire la classe cible pour comprendre ses méthodes publiques et ses dépendances.
+2. Localiser le fichier de test correspondant sous `src/test/java` (miroir du package source).
+3. Générer une classe de test JUnit 5 en suivant les patterns ci-dessous.
+4. Placer les mocks avec `@MockitoExtension` pour les tests unitaires, ou utiliser `@SpringBootTest` + `@Transactional` pour les tests d'intégration.
 
 ## Conventions
 
-- Test class name: `<ClassName>Tests`.
-- One `@Test` method per behaviour, named `should<Behaviour>When<Context>`.
-- Use `@MockitoExtension` + `@Mock`/`@InjectMocks` for unit tests (services).
-- Use `@SpringBootTest` + `MockMvc` for controller integration tests.
-- Assert with AssertJ (`assertThat(...)`), not JUnit assertions.
-- Cover: happy path, not-found / null case, and at least one validation error.
+- Nom de la classe de test : `<ClassName>Tests`.
+- Une méthode `@Test` par comportement, nommée `should<Behaviour>When<Context>`.
+- Utiliser `@MockitoExtension` + `@Mock`/`@InjectMocks` pour les tests unitaires (services).
+- Utiliser `@SpringBootTest` + `MockMvc` pour les tests d'intégration de controllers.
+- Asserter avec AssertJ (`assertThat(...)`), pas les assertions JUnit.
+- Couvrir : le chemin nominal, le cas non-trouvé / null, et au moins une erreur de validation.
 
-## Example (service unit test)
+## Exemple (test unitaire de service)
 
 ```java
 @ExtendWith(MockitoExtension.class)

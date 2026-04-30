@@ -1,34 +1,34 @@
 ---
-description: "Use when creating or editing Thymeleaf templates, HTML views, or SCSS stylesheets. Covers layout composition, data binding, iteration, i18n, URL building, and date formatting."
+description: "À utiliser lors de la création ou de l'édition de templates Thymeleaf, de vues HTML ou de feuilles de style SCSS. Couvre la composition de layout, la liaison de données, l'itération, l'i18n, la construction d'URL et le formatage des dates."
 applyTo: "src/main/resources/templates/**/*.html, src/main/scss/**/*.scss"
 ---
 
-# Front-End Layer Instructions
+# Instructions couche front-end
 
 Conventions de codage pour les templates Thymeleaf et les feuilles de style SCSS de ce projet Spring Boot MVC.
 
-## Thymeleaf Namespace
+## Namespace Thymeleaf
 
-Always declare the Thymeleaf namespace on the root `<html>` element:
+Toujours déclarer le namespace Thymeleaf sur l'élément racine `<html>` :
 
 ```html
 <html xmlns:th="https://www.thymeleaf.org">
 ```
 
-## Layout Composition
+## Composition de layout
 
-All pages must use the shared master layout via fragment inclusion:
+Toutes les pages doivent utiliser le layout maître partagé via l'inclusion de fragments :
 
 ```html
 <body th:replace="~{fragments/layout :: layout (~{::body}, 'section-name')}">
 ```
 
-- The second argument is the active nav section name (e.g., `'owners'`, `'vets'`).
-- Never duplicate the `<head>`, navigation, or footer — they live in `fragments/layout.html`.
+- Le deuxième argument est le nom de la section de navigation active (ex : `'owners'`, `'vets'`).
+- Ne jamais dupliquer le `<head>`, la navigation ou le pied de page — ils se trouvent dans `fragments/layout.html`.
 
-## Data Binding
+## Liaison de données
 
-Bind a form object with `th:object`, then use the short `*{}` selector for fields:
+Lier un objet formulaire avec `th:object`, puis utiliser le sélecteur court `*{}` pour les champs :
 
 ```html
 <form th:object="${owner}" method="post">
@@ -37,9 +37,9 @@ Bind a form object with `th:object`, then use the short `*{}` selector for field
 </form>
 ```
 
-## Iteration
+## Itération
 
-Use `th:each` to iterate over collections:
+Utiliser `th:each` pour itérer sur des collections :
 
 ```html
 <tr th:each="pet : ${owner.pets}">
@@ -47,9 +47,9 @@ Use `th:each` to iterate over collections:
 </tr>
 ```
 
-## URL Building
+## Construction d'URL
 
-Always use `@{}` for URLs — never hardcode paths:
+Toujours utiliser `@{}` pour les URLs — ne jamais coder les chemins en dur :
 
 ```html
 <!-- Static path -->
@@ -62,7 +62,7 @@ Always use `@{}` for URLs — never hardcode paths:
 <a th:href="@{__${owner.id}__/edit}">Edit</a>
 ```
 
-## Conditional Rendering
+## Rendu conditionnel
 
 ```html
 <div th:if="${condition}">...</div>
@@ -71,35 +71,35 @@ Always use `@{}` for URLs — never hardcode paths:
 
 ## Internationalisation (i18n)
 
-Use `#{key}` for all user-facing labels and messages. Never hardcode strings directly:
+Utiliser `#{key}` pour tous les labels et messages visibles par l'utilisateur. Ne jamais coder les chaînes directement :
 
 ```html
 <label th:text="#{owner.firstName}">First Name</label>
 ```
 
-Message files are located in `src/main/resources/messages/`.
+Les fichiers de messages se trouvent dans `src/main/resources/messages/`.
 
-## Date Formatting
+## Formatage des dates
 
-Use the `#temporals` utility for date display:
+Utiliser l'utilitaire `#temporals` pour l'affichage des dates :
 
 ```html
 <td th:text="${#temporals.format(pet.birthDate, 'yyyy-MM-dd')}"></td>
 ```
 
-Use `@DateTimeFormat(pattern = "yyyy-MM-dd")` on the corresponding Java field for form binding.
+Utiliser `@DateTimeFormat(pattern = "yyyy-MM-dd")` sur le champ Java correspondant pour la liaison de formulaire.
 
-## Safe Navigation
+## Navigation sécurisée
 
-Use the null-safe `?.` operator when a property may be null:
+Utiliser l'opérateur null-safe `?.` lorsqu'une propriété peut être nulle :
 
 ```html
 <span th:text="${visit?.description}"></span>
 ```
 
-## General Rules
+## Règles générales
 
-- Do not embed business logic in templates — delegate to the controller/model.
-- Do not use inline JavaScript for data that belongs in the model.
-- Keep templates readable: one concern per template, use fragment includes for repeated markup.
-- Follow the existing naming convention: `owners/`, `pets/`, `vets/` subdirectories under `templates/`.
+- Ne pas intégrer de logique métier dans les templates — déléguer au controller/modèle.
+- Ne pas utiliser JavaScript inline pour des données qui appartiennent au modèle.
+- Garder les templates lisibles : une préoccupation par template, utiliser les fragments pour le balisage répété.
+- Suivre la convention de nommage existante : sous-répertoires `owners/`, `pets/`, `vets/` sous `templates/`.

@@ -1,15 +1,15 @@
 ---
-description: "Use when creating or editing Java classes: controllers, entities, validators, formatters, or configuration. Covers Spring MVC conventions, JPA mapping, validation, dependency injection, and formatting patterns."
+description: "À utiliser lors de la création ou de l'édition de classes Java : controllers, entités, validators, formatters ou configuration. Couvre les conventions Spring MVC, le mapping JPA, la validation, l'injection de dépendances et les patterns de formatage."
 applyTo: "src/main/java/**/*.java"
 ---
 
-# Back-End Layer Instructions
+# Instructions couche back-end
 
 Conventions de codage pour les classes Java back-end de ce projet Spring Boot MVC : controllers, entités, validators, formatters et configuration.
 
-## Dependency Injection
+## Injection de dépendances
 
-Always use constructor injection. Never use `@Autowired` on fields:
+Toujours utiliser l'injection par constructeur. Ne jamais utiliser `@Autowired` sur les champs :
 
 ```java
 // Correct
@@ -26,11 +26,11 @@ class OwnerController {
 
 ## Controllers
 
-### Class Declaration
+### Déclaration de la classe
 
-- Use `@Controller` (not `@RestController` unless returning JSON/XML directly).
-- Controllers are **package-private** — no `public` modifier on the class.
-- Declare the base path on the class with `@RequestMapping`.
+- Utiliser `@Controller` (pas `@RestController` sauf si JSON/XML est retourné directement).
+- Les controllers sont **package-private** — pas de modificateur `public` sur la classe.
+- Déclarer le chemin de base sur la classe avec `@RequestMapping`.
 
 ```java
 @Controller
@@ -38,17 +38,17 @@ class OwnerController {
 class OwnerController { ... }
 ```
 
-### View Name Constants
+### Constantes de nom de vue
 
-Declare view name strings as `private static final String` constants at the top of the class:
+Déclarer les chaînes de nom de vue comme constantes `private static final String` en haut de la classe :
 
 ```java
 private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 ```
 
-### Security: Input Binding
+### Sécurité : liaison des champs
 
-Always use `@InitBinder` to block sensitive fields from being bound from the HTTP request:
+Toujours utiliser `@InitBinder` pour bloquer les champs sensibles de la liaison HTTP :
 
 ```java
 @InitBinder
@@ -57,9 +57,9 @@ public void setAllowedFields(WebDataBinder dataBinder) {
 }
 ```
 
-### Model Population
+### Population du modèle
 
-Use `@ModelAttribute` methods to pre-populate model data shared across handler methods:
+Utiliser les méthodes `@ModelAttribute` pour pré-remplir les données du modèle partagées entre les méthodes :
 
 ```java
 @ModelAttribute("owner")
@@ -70,7 +70,7 @@ public Owner findOwner(@PathVariable(required = false) Integer ownerId) {
 
 ### Validation
 
-Always pair `@Valid` with `BindingResult` immediately after the validated object. Return the form view on errors:
+Toujours associer `@Valid` avec `BindingResult` immédiatement après l'objet validé. Retourner la vue du formulaire en cas d'erreurs :
 
 ```java
 @PostMapping("/new")
@@ -83,14 +83,14 @@ public String processCreationForm(@Valid Owner owner, BindingResult result) {
 }
 ```
 
-### Redirects vs Views
+### Redirections vs Vues
 
-- After a successful `POST`, always redirect: `return "redirect:/owners/" + id;`
-- After a failed `POST` (validation errors), return the view name string directly.
+- Après un `POST` réussi, toujours rediriger : `return "redirect:/owners/" + id;`
+- Après un `POST` échoué (erreurs de validation), retourner directement la chaîne du nom de vue.
 
 ### Pagination
 
-Use Spring Data's `Pageable` and `Page<T>` for list endpoints:
+Utiliser `Pageable` et `Page<T>` de Spring Data pour les endpoints de liste :
 
 ```java
 @GetMapping("/list")
@@ -103,19 +103,19 @@ public String showVetList(@RequestParam(defaultValue = "1") int page, Model mode
 
 ---
 
-## Entities
+## Entités
 
-### Inheritance Hierarchy
+### Hiérarchie d'héritage
 
-Reuse the existing base classes — do not introduce new base classes:
+Réutiliser les classes de base existantes — ne pas introduire de nouvelles classes de base :
 
-| Base Class | Adds | Use for |
+| Classe de base | Ajoute | Utiliser pour |
 |---|---|---|
-| `BaseEntity` | `id` (`@Id`, `@GeneratedValue`) | Any persistent entity |
-| `NamedEntity` | `name` + `@NotBlank` | Lookup/reference entities |
-| `Person` | `firstName`, `lastName` + `@NotBlank` | People (Owner, Vet) |
+| `BaseEntity` | `id` (`@Id`, `@GeneratedValue`) | Toute entité persistante |
+| `NamedEntity` | `name` + `@NotBlank` | Entités de référence/lookup |
+| `Person` | `firstName`, `lastName` + `@NotBlank` | Personnes (Owner, Vet) |
 
-### Class Annotations
+### Annotations de classe
 
 ```java
 @Entity
@@ -123,7 +123,7 @@ Reuse the existing base classes — do not introduce new base classes:
 public class Pet extends NamedEntity { ... }
 ```
 
-### Relationships
+### Relations
 
 ```java
 // One-to-many (parent side)
@@ -144,9 +144,9 @@ private PetType type;
 private Set<Specialty> specialties = new LinkedHashSet<>();
 ```
 
-### Field Validation
+### Validation des champs
 
-Use Jakarta Bean Validation annotations directly on entity fields:
+Utiliser les annotations Jakarta Bean Validation directement sur les champs de l'entité :
 
 ```java
 @NotBlank
@@ -163,7 +163,7 @@ private String telephone;
 
 ## Validators
 
-Implement Spring's `Validator` interface for multi-field or business-rule validation that cannot be expressed with Bean Validation annotations:
+Implémenter l'interface `Validator` de Spring pour la validation multi-champs ou à règles métier qui ne peuvent pas être exprimées avec les annotations Bean Validation :
 
 ```java
 public class PetValidator implements Validator {
@@ -183,7 +183,7 @@ public class PetValidator implements Validator {
 }
 ```
 
-Register the validator in the controller via `@InitBinder`:
+Enregistrer le validator dans le controller via `@InitBinder` :
 
 ```java
 @InitBinder("pet")
@@ -196,7 +196,7 @@ public void initPetBinder(WebDataBinder dataBinder) {
 
 ## Formatters
 
-Implement `Formatter<T>` for converting domain objects to/from form strings. Mark with `@Component` so Spring auto-registers them:
+Implémenter `Formatter<T>` pour convertir les objets du domaine vers/depuis des chaînes de formulaire. Annoter avec `@Component` pour que Spring les enregistre automatiquement :
 
 ```java
 @Component
@@ -216,9 +216,9 @@ public class PetTypeFormatter implements Formatter<PetType> {
 
 ---
 
-## General Rules
+## Règles générales
 
-- Keep classes small and focused on a single responsibility.
-- Follow existing package structure: group by feature (`owner/`, `vet/`), not by layer.
-- Follow existing naming conventions: `XxxController`, `XxxRepository`, `XxxValidator`, `XxxFormatter`.
-- Add or update tests for any behavior change.
+- Garder les classes petites et focalisées sur une seule responsabilité.
+- Suivre la structure de packages existante : grouper par fonctionnalité (`owner/`, `vet/`), pas par couche.
+- Suivre les conventions de nommage existantes : `XxxController`, `XxxRepository`, `XxxValidator`, `XxxFormatter`.
+- Ajouter ou mettre à jour les tests pour tout changement de comportement.
