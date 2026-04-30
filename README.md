@@ -36,8 +36,24 @@ L'objectif n'est pas de livrer une implémentation complète, mais de **pratique
 
 #### 0. Découvrir les Copilot instructions du projet
 
-// TODO : formuler la requête qui invite les formés à prendre connaissance des instructions globales et contextuelles
-// TODO : formuler l'exercice qui invite à interroger sur une couche en particulier et ne voir que ce que l'instruction contextuelle requise soit chargée + Mode Ask
+Ce projet embarque deux niveaux d'instructions Copilot :
+
+- **Instructions globales**, [`.github/copilot-instructions.md`](.github/copilot-instructions.md) : contexte projet, règles générales et conventions appliquées à toutes les conversations Copilot.
+- **Instructions contextuelles**, dossier [`.github/instructions/`](.github/instructions/) : règles spécialisées par couche, chargées automatiquement selon les fichiers ouverts dans l'éditeur (`back.instructions.md`, `front.instructions.md`, `database.instructions.md`).
+
+Prendre le temps de lire ces fichiers avant de continuer : ils conditionnent la qualité et la cohérence des propositions de Copilot tout au long du TP.
+
+**Exercice — Interroger Copilot sur la couche back avec les instructions contextuelles actives**
+
+**Mode Ask**
+
+1. Ouvrir un fichier Java du projet (ex. `src/main/java/.../owner/OwnerController.java`) pour que `back.instructions.md` soit actif.
+2. Ouvrir Copilot Chat (`Ctrl+Alt+I`) en mode **Ask** et soumettre le prompt suivant :
+
+```
+Quelles sont les règles de codage à respecter pour la couche back-end de ce projet ?
+Liste les conventions d'injection de dépendances, de validation et de mapping JPA appliquées ici.
+```
 
 #### 1. Explorer le projet : Mode Ask
 
