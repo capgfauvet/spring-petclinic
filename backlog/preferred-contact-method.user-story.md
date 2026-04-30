@@ -1,7 +1,5 @@
 ﻿# US : Méthode de contact préférée
 
-## Description
-
 En tant que membre du personnel de la clinique, je veux pouvoir enregistrer le mode de contact préféré d'un owner afin de le contacter de la manière la plus adaptée.
 
 ## Règles métier

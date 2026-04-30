@@ -5,6 +5,8 @@ applyTo: "src/main/resources/db/**/*.sql, src/main/java/**/*Repository.java"
 
 # Database Layer Instructions
 
+Conventions pour les repositories Spring Data, les schémas SQL et les scripts de migration de ce projet.
+
 ## Repositories
 
 ### Interface Declaration

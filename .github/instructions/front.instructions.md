@@ -5,6 +5,8 @@ applyTo: "src/main/resources/templates/**/*.html, src/main/scss/**/*.scss"
 
 # Front-End Layer Instructions
 
+Conventions de codage pour les templates Thymeleaf et les feuilles de style SCSS de ce projet Spring Boot MVC.
+
 ## Thymeleaf Namespace
 
 Always declare the Thymeleaf namespace on the root `<html>` element:

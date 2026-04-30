@@ -6,6 +6,8 @@ argument-hint: 'Class name or path to the class to test'
 
 # Generate Tests
 
+Workflow pour générer des classes de test JUnit 5 pour les controllers, services et repositories Spring Boot.
+
 ## When to Use
 - A new service, controller, or repository has no test coverage.
 - An existing class needs additional test cases after a change.

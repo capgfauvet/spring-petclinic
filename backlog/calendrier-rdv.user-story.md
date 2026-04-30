@@ -1,7 +1,5 @@
 ﻿# US : Calendrier des rendez-vous du vétérinaire
 
-## Description
-
 En tant que vétérinaire, je veux accéder à un calendrier de mes rendez-vous afin de visualiser et gérer mon planning.
 
 ## Règles métier

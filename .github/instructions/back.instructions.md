@@ -5,6 +5,8 @@ applyTo: "src/main/java/**/*.java"
 
 # Back-End Layer Instructions
 
+Conventions de codage pour les classes Java back-end de ce projet Spring Boot MVC : controllers, entités, validators, formatters et configuration.
+
 ## Dependency Injection
 
 Always use constructor injection. Never use `@Autowired` on fields:

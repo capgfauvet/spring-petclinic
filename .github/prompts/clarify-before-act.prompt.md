@@ -5,6 +5,8 @@ description: 'Prompt générique de clarification interactive via #ask_questions
 
 # Clarification interactive avant action
 
+Prompt générique pour conduire un entretien de clarification structuré avant d'agir. Invite l'agent à poser des questions ciblées, collecter les réponses et les intégrer avant de produire une réponse.
+
 ## Objectif
 
 Avant de traiter toute demande, conduire un entretien de clarification structuré pour lever les ambiguïtés, identifier les contraintes et aligner la solution sur les attentes réelles.

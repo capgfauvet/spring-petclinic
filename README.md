@@ -83,7 +83,7 @@ Quels sont les différentes couches architecturales et leurs inter-connections. 
 
 Avant de proposer une implémentation, demander à Copilot de poser des questions pour clarifier les besoins. Utile quand les specs sont floues.
 
-![Infra Badge](https://img.shields.io/badge/Prompt--Engineering-Stratégie--Questions--Réponses-informational)
+![Badge stratégie prompt : Questions-Réponses](https://img.shields.io/badge/Prompt--Engineering-Stratégie--Questions--Réponses-informational)
 
 ```
 Avant de proposer une implémentation de la Welcome Page décrite dans le backlog ( #file:welcome-page.user-story.md  ), pose-moi les questions nécessaires pour clarifier les éléments qui la composeront. Mets à jour l'US en suivant.
@@ -101,7 +101,7 @@ Demander à Copilot de proposer plusieurs approches et de comparer leurs avantag
 > [!WARNING]
 > A reprendre
 
-![Infra Badge](https://img.shields.io/badge/Prompt--Engineering-Stratégie--Avantages--Inconvénients-informational)
+![Badge stratégie prompt : Avantages-Inconvénients](https://img.shields.io/badge/Prompt--Engineering-Stratégie--Avantages--Inconvénients-informational)
 
 ```
 Tu es architecte Java/Spring sur ce projet.
@@ -112,7 +112,7 @@ Pour chaque approche, donne : avantages, inconvénients, lisibilité, maintenabi
 Termine par une recommandation argumentée pour ce projet, avec un plan minimal en 5 étapes.
 ```
 
-##### 4 Implémentation de la page Page des Animaux
+#### 4. Implémentation de la page des animaux
 
 **Feature :** [`backlog/page-animaux.user-story.md`](backlog/page-animaux.user-story.md)
 
@@ -126,11 +126,11 @@ Décompose l'implémentation de la page de l'US #file:page-animaux.user-story.md
 
 Utiliser le Handoff **Start Implémentation**.
 
-##### 5. Implémentation du Calendrier des RDV des Vétérinaires
+#### 5. Implémentation du calendrier des RDV des vétérinaires
 
 **Feature :** [`backlog/calendrier-rdv.user-story.md`](backlog/calendrier-rdv.user-story.md)
 
-![Infra Badge](https://img.shields.io/badge/Prompt--Engineering-Stratégie--Rôle-informational)
+![Badge stratégie prompt : Rôle](https://img.shields.io/badge/Prompt--Engineering-Stratégie--Rôle-informational)
 
 Donner un rôle explicite à Copilot modifie le prisme de sa réponse. Un architecte pense différemment d'un développeur ou d'un reviewer.
 
@@ -158,7 +158,7 @@ Analyse cette implémentation et liste les risques, les oublis et les améliorat
 
 **Mode Agent : code-reviewer**
 
-##### 6. Stratégie d'Auto-correction : Modification des vétérinaires
+#### 6. Stratégie d'auto-correction : modification des vétérinaires
 
 **Principe :** Demander à Copilot de critiquer sa propre proposition avant de la corriger. Cela simule une relecture croisée et détecte les oublis fréquents.
 
@@ -184,8 +184,7 @@ Corrige ta proposition en tenant compte de cette critique.
 - Comparer la version initiale et la version corrigée
 - Identifier les types d'oublis que Copilot détecte (et ceux qu'il manque)
 
-<details>
-<summary>Oublis typiques que Copilot devrait détecter</summary>
+**Oublis typiques que Copilot devrait détecter**
 
 - Absence de `@Valid` sur le `@ModelAttribute` dans le controller
 - Pas de gestion du cas où le `BindingResult` contient des erreurs
@@ -193,9 +192,7 @@ Corrige ta proposition en tenant compte de cette critique.
 - Aucun test pour le cas de formulaire invalide
 - `@InitBinder` manquant pour protéger le champ `id`
 
-</details>
-
-##### 2.6 Stratégie Zero / One / Few Shot : Calendrier JSON
+#### 7. Stratégie Zero / One / Few Shot : calendrier JSON
 
 **Principe :** Fournir des exemples dans le prompt améliore la cohérence et le format des réponses générées. Plus on donne d'exemples, plus la génération est précise.
 
@@ -257,8 +254,7 @@ Avant d'appliquer, se poser ces questions :
 - Une migration SQL est-elle incluse ?
 - Y a-t-il des étapes à supprimer ou à ajouter ?
 
-<details>
-<summary>Plan attendu (référence)</summary>
+**Plan attendu (référence)**
 
 1. Créer l'enum `ContactMethod { PHONE, EMAIL, POSTAL_MAIL }`
 2. Ajouter `email` (optionnel) et `preferredContactMethod` à `Owner.java`
@@ -268,8 +264,6 @@ Avant d'appliquer, se poser ces questions :
 6. Mettre à jour `ownerDetails.html`
 7. Mettre à jour `schema.sql`
 8. Ajouter 4 cas dans `OwnerControllerTests.java`
-
-</details>
 
 ##### 3.3 Appliquer le plan
 
@@ -316,7 +310,9 @@ Créer un fichier de prompt pour la revue de code Spring. Dans VS Code, ouvrir l
 
 Contenu suggéré :
 
-```markdownmode: askTu es un reviewer Java/Spring.
+```markdown
+mode: ask
+Tu es un reviewer Java/Spring.
 Analyse le fichier sélectionné et liste :
 1. Les violations de bonnes pratiques Spring MVC
 2. Les validations manquantes
@@ -413,8 +409,7 @@ Si un serveur MCP pertinent a été identifié et est configurable localement :
 2. Reconnecter Copilot au serveur
 3. Tester en demandant à Copilot de générer une requête JPQL sur la base des entités du projet
 
-<details>
-<summary>Exemple de configuration MCP pour une base de données</summary>
+**Exemple de configuration MCP pour une base de données**
 
 ```json
 {
@@ -430,8 +425,6 @@ Si un serveur MCP pertinent a été identifié et est configurable localement :
 
 > Ce type de configuration permet à Copilot de lire le schéma et d'exécuter des requêtes SQL via le MCP.
 
-</details>
-
 ##### 5.3 Utilisation du MCP via un prompt
 
 **Objectif pédagogique :** utiliser MCP comme un outil d'observabilité de la donnée (et non de correction automatique) pour détecter des anomalies utiles au développement.
@@ -446,7 +439,5 @@ Dans le chat, éxécuter le prompt [`mcp-db-data-quality-alert.prompt.md`](.gith
 ```
 /mcp-db-data-quality-alert Trouve les homonymes et les doublons de contacts dans les owners, puis génère un rapport de monitoring des anomalies.
 ```
-
---- 
 
 - Utiliser les checkpoints / fork lors d'une discussion

@@ -1,5 +1,7 @@
 # Copilot Instructions
 
+Project-wide Copilot directives for the Spring PetClinic application. These instructions apply to all Copilot conversations in this workspace.
+
 ## Project context
 - Stack: Java, Spring Boot, Thymeleaf, JPA, JUnit.
 - Build tools: Maven and Gradle wrappers are available.
