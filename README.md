@@ -119,7 +119,7 @@ Utiliser le Handoff **Start Implémentation** pour automatiquement basculer vers
 
 **Feature :** [backlog/calendrier-rdv.user-story.md](backlog/calendrier-rdv.user-story.md)
 
-Ce projet embarque trois **Custom Agents** accessibles via le sélecteur de mode en haut du chat :
+Ce projet embarque trois **Agents** accessibles via le sélecteur de mode en haut du chat :
 
 - **Architect** ([.github/agents/architect.agent.md](.github/agents/architect.agent.md)) : décisions architecturales, découpage de tâches. Ne produit pas de code.
 - **Software Engineer** ([.github/agents/software-engineer.agent.md](.github/agents/software-engineer.agent.md)) : implémentation complète, compilable et testée.
@@ -214,12 +214,12 @@ Notes à convertir :
 3. "Un monsieur arrive avec un chat blessé, pas dans le système, à passer en urgence."
 ```
 
-### 8. Générer des tests avec un Custom Skill
+### 8. Générer des tests avec un Skill
 
 ![Mode Agent](https://img.shields.io/badge/Mode-Agent-blueviolet)
 ![Skill : generate-tests](https://img.shields.io/badge/Skill-generate--tests-teal)
 
-Ce projet embarque un **Custom Skill** dédié à la génération de tests JUnit :
+Ce projet embarque un **Skill** dédié à la génération de tests JUnit :
 [.github/skills/generate-tests/SKILL.md](.github/skills/generate-tests/SKILL.md)
 
 Un skill est un fichier de connaissances métier invoquable à la demande dans le chat Agent via `#generate-tests`. Contrairement aux instructions (injectées automatiquement), un skill n'est activé que quand on le cite explicitement.
