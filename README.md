@@ -125,10 +125,7 @@ Ce projet embarque trois **Custom Agents** accessibles via le sélecteur de mode
 - **Software Engineer** ([.github/agents/software-engineer.agent.md](.github/agents/software-engineer.agent.md)) : implémentation complète, compilable et testée.
 - **Code Reviewer** ([.github/agents/code-reviewer.agent.md](.github/agents/code-reviewer.agent.md)) : revue de code, bugs, sécurité, tests manquants. Ne corrige pas directement.
 
-> [!IMPORTANT]
-> **Biais de confirmation** : un agent qui a produit du code aura tendance à valider sa propre production lors de la revue. Pour éviter ce biais, **ouvrir une nouvelle conversation** entre chaque agent.
-
-#### 6.1 Agent Architect : Planifier la feature
+#### Agent Architect : Planifier la feature
 
 Dans un nouveau chat, sélectionner l'agent **Architect**, puis :
 
@@ -139,22 +136,24 @@ Pour chaque tâche, précise : la couche impactée, les fichiers à créer ou mo
 Termine par les critères d'acceptance techniques que le développeur devra valider.
 ```
 
-#### 6.2 Agent Software Engineer : Implémenter
+#### Agent Software Engineer : Implémenter
 
-Dans une **nouvelle conversation**, sélectionner l'agent **Software Engineer**, puis :
+Sélectionner l'agent **Software Engineer**, puis :
 
 ```
-Implémente la feature #file:calendrier-rdv.user-story.md dans ce projet Spring Boot MVC.
-Produis : le controller avec les routes GET et POST, la vue Thymeleaf, le validator si nécessaire, et au moins 2 tests unitaires.
-Respecte les patterns existants du projet documentés dans #file:back.instructions.md et #file:front.instructions.md.
+Implémente la feature #file:calendrier-rdv.user-story.md dans ce projet Spring Boot MVC en suivant le plan de l'architecte.
+Respecte les patterns existants du projet documentés dans #file:back.instructions.md et #file:front.instructions.md .
 ```
 
-#### 6.3 Agent Code Reviewer : Réviser
+> [!IMPORTANT]
+> **Biais de confirmation** : un agent qui a produit du code aura tendance à valider sa propre production lors de la revue. Pour éviter ce biais, **ouvrir une nouvelle conversation** entre chaque agent.
+
+#### Agent Code Reviewer : Réviser
 
 Dans une **nouvelle conversation**, sélectionner l'agent **Code Reviewer**, puis soumettre le code produit :
 
 ```
-Révise le code qui vient d'être produit pour la feature calendrier-rdv.
+Révise le code qui vient d'être produit pour la feature #file:calendrier-rdv.user-story.md .
 Liste par ordre de criticité : les incohérences avec les règles métier, les validations manquantes, les oublis de tests et les risques de sécurité (OWASP Top 10).
 Ne corrige pas : liste uniquement les observations.
 ```
