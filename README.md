@@ -41,7 +41,7 @@ Ce projet embarque deux niveaux d'instructions Copilot :
 
 - Les **Instructions Globales** : contexte projet, règles générales et conventions appliquées à toutes les conversations Copilot.
   - [.github/copilot-instructions.md](.github/copilot-instructions.md)
-- Les **Instructions Contextuelles**  : règles spécialisées par couche, injectées automatiquement selon le contexte grâce au champ `applyTo` dans leur en-tête YAML.
+- Les **Instructions Contextuelles** : règles spécialisées par couche, activées automatiquement selon le contexte courant, sur la base des motifs définis dans `applyTo` et/ou d’un rapprochement sémantique avec la `description` associée.
   - [.github/instructions/back.instructions.md](.github/instructions/back.instructions.md)
   - [.github/instructions/front.instructions.md](.github/instructions/front.instructions.md)
   - [.github/instructions/database.instructions.md](.github/instructions/database.instructions.md)
@@ -214,32 +214,34 @@ Notes à convertir :
 3. "Un monsieur arrive avec un chat blessé, pas dans le système, à passer en urgence."
 ```
 
-### 8. Générer des tests avec un Skill
+### 8. Skills : Connaissances Métier Injectées à la Demande
 
 ![Mode Agent](https://img.shields.io/badge/Mode-Agent-blueviolet)
 ![Skill : generate-tests](https://img.shields.io/badge/Skill-generate--tests-teal)
+![Skill : conventional-commit](https://img.shields.io/badge/Skill-conventional--commit-teal)
 
-Ce projet embarque un **Skill** dédié à la génération de tests JUnit :
-[.github/skills/generate-tests/SKILL.md](.github/skills/generate-tests/SKILL.md)
+Ce projet embarque deux **Skills** :
 
-Un skill est un fichier de connaissances métier invoquable à la demande dans le chat Agent via `#generate-tests`. Contrairement aux instructions (injectées automatiquement), un skill n'est activé que quand on le cite explicitement.
+- [.github/skills/generate-tests/SKILL.md](.github/skills/generate-tests/SKILL.md) : conventions JUnit pour ce projet
+- [.github/skills/conventional-commit/SKILL.md](.github/skills/conventional-commit/SKILL.md) : format Conventional Commits
 
-**Contexte :** l'étape 7 a produit un nouveau controller `POST /vets/new`. La classe `VetControllerTests` existante ne couvre que la liste et l'endpoint JSON. Les nouveaux cas d'usage ne sont pas testés.
+Un skill s'active selon la tâche demandée par une correspondance sémantique sur le champ `description`. Le skill n'a jamais besoin d'être cité dans le prompt : Copilot l'injecte dès qu'il reconnaît que la demande correspond à son domaine.
 
-**Exercice :**
+#### Génération de tests (skill `generate-tests`)
 
-Ouvrir un chat Agent, puis invoquer le skill en ciblant le controller modifié :
+`VetControllerTests` ne couvre actuellement que deux cas : la liste HTML (`GET /vets.html`) et l'endpoint JSON (`GET /vets`). Dans un chat Agent, demander :
 
 ```
-#generate-tests VetController
+Génère les tests manquants pour VetController.
 ```
 
-- Vérifier que les cas générés couvrent : formulaire valide (redirection 302), formulaire invalide (retour vue avec erreurs), champ `id` protégé par `@InitBinder`.
-- Comparer avec ce que l'auto-correction de l'étape 7 avait identifié comme tests manquants.
-- Lancer les tests avec `.\mvnw.cmd test -pl . -Dtest=VetControllerTests` pour valider.
+#### Commit conventionnel (skill `conventional-commit`)
 
-> [!TIP]
-> Le skill `#conventional-commit` fonctionne de la même façon : invoquer `#conventional-commit` dans un chat Agent pour générer un message de commit standardisé sur les changements en cours.
+Stager les modifications produites pendant cet exercice, puis dans un chat Agent :
+
+```
+Génère un message de commit pour les changements stagés.
+```
 
 ### 9. Model Context Protocol (MCP)
 
