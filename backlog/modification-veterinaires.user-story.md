@@ -1,7 +1,5 @@
 ﻿# US : Modification des vétérinaires
 
-## Description
-
 En tant qu'administrateur de la clinique, je veux pouvoir créer, modifier et supprimer des vétérinaires afin de maintenir le référentiel à jour.
 
 ## Règles métier

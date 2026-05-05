@@ -1,7 +1,5 @@
 ﻿# US : Page d'accueil de la clinique
 
-## Description
-
 En tant que visiteur de l'application, je veux accéder à une page d'accueil présentant les chiffres clés de la clinique afin d'avoir une vue synthétique de son activité.
 
 ## Règles métier

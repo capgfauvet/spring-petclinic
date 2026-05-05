@@ -1,503 +1,280 @@
-﻿# Lab IA Agentique L1
+﻿# Formation Lab IA Agentique # TP L1
 
-> [!TIP]
-> Ce TP s'appuie sur **Spring PetClinic**, une application Spring Boot MVC de référence.
-> La documentation complète du repository d'origine est disponible dans [`pet-clinic.md`](pet-clinic.md).
-
-## TP : Découverte des modes et fonctionnalités de Copilot
-
-> [!NOTE]
-> Le backlog du projet est disponible dans le dossier [`backlog/`](backlog/). Chaque fichier `.user-story.md` décrit une feature avec ses règles métier. Ces US servent de support tout au long du TP.
-
-### Présentation du TP
-
-Ce TP est une initiation aux différents modes et fonctionnalités de GitHub Copilot dans le cadre du développement d'une application Spring Boot MVC existante : **Spring PetClinic**.
+Ce TP est une initiation aux différents modes et fonctionnalités de GitHub Copilot dans le cadre du développement de **[Spring PetClinic](pet-clinic.md)**, une application de référence du projet [Spring](https://spring.io/) basée sur Spring Boot MVC.
 
 L'objectif n'est pas de livrer une implémentation complète, mais de **pratiquer chaque mode de Copilot** sur des exercices concrets, de comparer les résultats et de développer un sens critique sur les propositions générées.
 
-> [!IMPORTANT]
->
-> - L'objectif est de **pratiquer Copilot**, pas de finir l'implémentation.
-> - Prendre le temps de **lire et critiquer** ce que Copilot propose avant de l'accepter.
-> - **Committer régulièrement** ses expérimentations à l'aide de la fonctionnalité Copilot Commit.
+## Présentation du TP
+
+Le backlog du projet est disponible dans le dossier [backlog/](backlog/). Chaque fichier `.user-story.md` décrit une feature avec ses règles métier et sert de support aux exercices.
+
+Points clés à garder en tête tout au long du TP :
+
+- L'objectif est de **pratiquer Copilot**, pas de finir l'implémentation.
+- Prendre le temps de **lire et critiquer** ce que Copilot propose avant de l'accepter.
+- **Committer régulièrement** ses expérimentations à l'aide de la fonctionnalité Copilot Commit.
 
 ### Prérequis
 
-- Dézipper le projet et l'ouvrir dans VSCode
-- Faire un git init pour initialiser le projet afin de pouvoir créer des branches et commiter des fichiers
+1. Dézipper le projet et l'ouvrir dans VSCode.
+2. Faire un `git init` pour pouvoir créer des branches et commiter.
+3. Démarrer le projet : `.\mvnw.cmd spring-boot:run` (PowerShell) ou `.\mvnw spring-boot:run` (bash).
 
-### Déroulement pratique
+## Déroulement Pratique
 
-#### 1. Explorer le projet : Mode Ask
+### 1. Explorer le Projet
 
-Le mode **Ask** permet d'interroger Copilot sur le code existant. C'est le point de départ indispensable avant toute implémentation : comprendre le projet avant d'agir dessus.
+![Mode Ask](https://img.shields.io/badge/Mode-Ask-orange)
 
-> [!NOTE]
-> **Sélection de modèles** : Avant de commencer, dans l'interface Copilot Chat, sélectionner le modèle à utiliser pour cette exploration. La moitié du groupe utilise **GPT-\***, l'autre moitié **Claude Sonnet \***. Les résultats seront comparés à la fin de l'exercice.
-
-##### 1.1 Exploration globale du projet
-
-Commencer par demander à Copilot d'expliquer l'architecture générale de l'application, **sans cibler une feature particulière**.
-
-- Ouvrir GitHub Copilot Chat (`Ctrl+Alt+I`)
-- Poser les questions suivantes une par une, lire ses réflexions, lire la réponse 
-
-**Prompts suggérés :**
+Commencer par demander à Copilot d'expliquer l'architecture générale de l'application, sans cibler une feature particulière.
 
 ```
 Explique l'architecture générale de ce projet Spring Boot MVC.
-Quels sont les packages principaux et leur rôle ?
+Quelles sont les différentes couches architecturales et leurs interconnexions. Évalue les bonnes pratiques déjà mises en place dans le projet et à respecter.
 ```
 
-```
-Quelles validations existent déjà dans ce projet ?
-Liste les annotations utilisées et les validators custom.
-```
+### 2. Découvrir les Instructions Copilot
+
+![Mode Ask](https://img.shields.io/badge/Mode-Ask-orange)
+
+Ce projet embarque deux niveaux d'instructions Copilot :
+
+- Les **Instructions Globales** : contexte projet, règles générales et conventions appliquées à toutes les conversations Copilot.
+  - [.github/copilot-instructions.md](.github/copilot-instructions.md)
+- Les **Instructions Contextuelles** : règles spécialisées par couche, activées automatiquement selon le contexte courant, sur la base des motifs définis dans `applyTo` et/ou d’un rapprochement sémantique avec la `description` associée.
+  - [.github/instructions/back.instructions.md](.github/instructions/back.instructions.md)
+  - [.github/instructions/front.instructions.md](.github/instructions/front.instructions.md)
+  - [.github/instructions/database.instructions.md](.github/instructions/database.instructions.md)
+
+L'objectif est de prendre connaissance de ces fichiers : comprendre ce qu'ils contiennent, comment leur en-tête YAML est défini, et comment vérifier qu'ils sont injectés automatiquement dans une conversation Copilot.
 
 ```
-Quels tests controller existent ? Donne un exemple de ce qu'ils testent.
+Quelles sont les règles de codage à respecter pour la couche back-end de ce projet ?
+Liste les conventions d'injection de dépendances, de validation et de mapping JPA appliquées ici.
 ```
 
-<details>
-<summary>Points clés attendus dans les réponses</summary>
+L'attendu est que Copilot liste des règles issues de [back.instructions.md](.github/instructions/back.instructions.md) sans que le fichier ait été cité dans le prompt, preuve que l'injection contextuelle fonctionne.
 
-- **Package `owner`** : `Owner`, `OwnerController`, `PetController`, `VisitController`, `PetValidator`
-- **Package `vet`** : `Vet`, `VetController` (lecture seule actuellement)
-- **Package `system`** : `WelcomeController`, `CrashController`
-- **Validations existantes** : `@NotBlank`, `@Pattern(regexp = "\\d{10}")` sur `telephone`, `PetValidator` custom via `@InitBinder`
-- **Tests** : `OwnerControllerTests`, `PetControllerTests`, `VetControllerTests`, `ValidatorTests`
+> ![Résultat attendu : Copilot liste les règles du back sans que le fichier ait été cité](docs/read-instructions-expectation.png)
 
-</details>
+### 3. Conception d'une Méthode de Contact Préféré
 
-##### 1.2 Exploration ciblée : Feature `preferredContactMethod`
+![Mode Ask](https://img.shields.io/badge/Mode-Ask-orange)
+![Prompt Engineering : Avantages-Inconvénients](https://img.shields.io/badge/Prompt%20Engineering-Strat%C3%A9gie%20Avantages--Inconv%C3%A9nients-informational)
+![Prompt Engineering : Rôle](https://img.shields.io/badge/Prompt%20Engineering-Strat%C3%A9gie%20Rôle-informational)
 
-Créer une nouvelle branche git et ouvrir un nouveau chat en mode **Agent**. Lier le fichier de l'US au prompt. 
+**Feature :** [backlog/preferred-contact-method.user-story.md](backlog/preferred-contact-method.user-story.md)
 
-Avec une vision globale du projet, cibler la feature à implémenter : le **mode de contact préféré** d'un owner (voir [`backlog/preferred-contact-method.user-story.md`](backlog/preferred-contact-method.user-story.md)).
-
-**Prompts suggérés :**
+Demander à Copilot d'incarner un rôle, de proposer plusieurs approches et de comparer leurs avantages et inconvénients. Utile pour prendre une décision architecturale éclairée.
 
 ```
-Explique comment fonctionne la gestion des owners dans ce projet
-et liste les fichiers à modifier pour ajouter un champ preferredContactMethod.
+Tu es architecte Java/Spring sur ce projet.
+Pour la feature #file:preferred-contact-method.user-story.md , compare 2 approches :
+A) Validation via annotations Bean Validation sur le modèle Owner
+B) Validation via un validator Spring dédié branché au controller
+Pour chaque approche, donne : avantages, inconvénients, lisibilité, maintenabilité, risques de régression et impact sur les tests
+Termine par une recommandation argumentée pour ce projet, avec un plan minimal en 5 étapes.
 ```
 
-```
-Où est défini Owner et quels sont ses champs actuels ?
-Quels templates HTML affichent les données d'un owner ?
-```
+Nul besoin de procéder à l'implémentation de cette User Story.
 
-<details>
-<summary>Fichiers impactés attendus</summary>
+### 4. Implémentation de la Welcome Page 
 
-| Fichier | Modification attendue |
-|---|---|
-| `Owner.java` | Ajout du champ `preferredContactMethod` (enum) et `email` |
-| `OwnerController.java` | Validation conditionnelle |
-| `createOrUpdateOwnerForm.html` | Ajout du select et du champ email |
-| `ownerDetails.html` | Affichage du mode de contact préféré |
-| `OwnerControllerTests.java` | Nouveaux cas de test |
-| `schema.sql` | Nouvelle colonne |
+![Mode Agent](https://img.shields.io/badge/Mode-Agent-blueviolet)
+![Prompt Engineering : Questions-Réponses](https://img.shields.io/badge/Prompt%20Engineering-Strat%C3%A9gie%20Questions--R%C3%A9ponses-informational)
 
-</details>
+**Feature :** [backlog/welcome-page.user-story.md](backlog/welcome-page.user-story.md)
 
-Lancer le projet avec la commande : `.\mvnw spring-boot:run` dans un bash ou `.\mvnw.cmd spring-boot:run` dans powershell
-
-#### 2. Prompt Engineering
-
-Le **Prompt Engineering** consiste à formuler ses demandes à Copilot de manière stratégique pour obtenir des réponses plus précises, plus utiles, et plus faciles à critiquer. Cette section présente **6 stratégies**, chacune appliquée à une feature différente du backlog.
-
-> [!NOTE]
-> Ces exercices se font principalement en mode **Ask**. Il ne s'agit pas encore d'implémenter : mais d'expérimenter la formulation des prompts et d'observer comment la qualité de la réponse change.
-
-##### 2.1 Stratégie Questions / Réponses : Welcome Page
-
-**Principe :** Avant de proposer une implémentation, demander à Copilot de poser des questions pour clarifier les besoins. Utile quand les specs sont floues.
-
-**Feature :** [`backlog/welcome-page.user-story.md`](backlog/welcome-page.user-story.md)
-
-**Exercice :**
-
-Poser ce prompt dans Copilot Chat :
+Avant de proposer une implémentation, demander à Copilot de poser des questions pour clarifier les besoins. Utile quand les spécifications sont floues.
 
 ```
-Avant de proposer une implémentation de la Welcome Page décrite dans le backlog,
-pose-moi les questions nécessaires pour clarifier les éléments qui la composeront.
+Avant de proposer une implémentation de la Welcome Page décrite dans le backlog ( #file:welcome-page.user-story.md  ), pose-moi les questions nécessaires pour clarifier les éléments qui la composeront. Mets à jour l'US en suivant.
 ```
 
-- Répondre aux questions de Copilot
-- Observer comment les réponses orientent la proposition finale
-- Refaire l'exercice **sans** cette étape de clarification et comparer la qualité des résultats
+Faire l'implémentation toujours en Mode Agent, et vérifier dans l'application la page Welcome.
 
-<details>
-<summary>Questions typiques que Copilot devrait poser</summary>
+### 5. Implémentation de la Page des Animaux
 
-- Quelles statistiques afficher (owners, pets, vets) ?
-- Faut-il un graphique ou une liste pour la répartition par type d'animal ?
-- Le classement des vétérinaires doit-il être limité (top 3, top 5) ?
-- Les données doivent-elles être chargées en temps réel ou mises en cache ?
+![Mode Plan](https://img.shields.io/badge/Mode-Plan-yellow)
+![Mode Agent](https://img.shields.io/badge/Mode-Agent-blueviolet)
+![Prompt Engineering : Raisonnement par Étape](https://img.shields.io/badge/Prompt%20Engineering-Strat%C3%A9gie%20Raisonnement%20par%20Etape-informational)
 
-</details>
+**Feature :** [backlog/page-animaux.user-story.md](backlog/page-animaux.user-story.md)
 
-##### 2.2 Stratégie Avantages / Inconvénients : Authentification
-
-**Principe :** Demander à Copilot de proposer plusieurs approches et de comparer leurs avantages/inconvénients. Utile pour prendre une décision architecturale éclairée.
-
-**Feature :** [`backlog/authentification.user-story.md`](backlog/authentification.user-story.md)
-
-**Exercice :**
+Demander à Copilot en Mode Plan de planifier l'implémentation de l'US sur la Page des Animaux.
 
 ```
-Propose 2 manières d'implémenter l'authentification dans cette application Spring Boot MVC
-et compare leurs avantages et inconvénients dans ce contexte.
+Décompose l'implémentation de la page de l'US #file:page-animaux.user-story.md en étapes atomiques.
 ```
 
-- Lire les 2 approches proposées
-- Évaluer si les critères de comparaison sont pertinents pour ce projet
-- Choisir l'approche à implémenter et justifier le choix
+Utiliser le Handoff **Start Implémentation** pour automatiquement basculer vers le Mode Agent et commencer la tâche.
 
-<details>
-<summary>Approches typiquement proposées</summary>
+### 6. Implémentation du Calendrier des RDV des Vétérinaires
 
-| Approche | Description | Avantage | Inconvénient |
-|---|---|---|---|
-| Spring Security + formulaire HTML | Config Java `SecurityFilterChain`, formulaire `login.html` | Natif Spring, facile à intégrer dans MVC | Config plus verbeuse |
-| Spring Security + HTTP Basic | Authentification via header HTTP | Simple, adapté aux API REST | Pas de session, UX dégradée pour une app web |
+![Mode Agent](https://img.shields.io/badge/Mode-Agent-blueviolet)
+![Agent : architect](https://img.shields.io/badge/Agent-architect-brown)
+![Agent : software-engineer](https://img.shields.io/badge/Agent-software--engineer-brown)
+![Agent : code-reviewer](https://img.shields.io/badge/Agent-code--reviewer-brown)
+![Prompt Engineering : Stratégie Rôle](https://img.shields.io/badge/Prompt%20Engineering-Stratégie%20Rôle-informational)
 
-</details>
+**Feature :** [backlog/calendrier-rdv.user-story.md](backlog/calendrier-rdv.user-story.md)
 
-##### 2.3 Stratégie Étapes atomiques : Page animaux
+Ce projet embarque trois **Agents** accessibles via le sélecteur de mode en haut du chat :
 
-**Principe :** Demander à Copilot de décomposer l'implémentation en étapes atomiques, dans l'ordre le plus sûr (pas de cassure de l'existant). Utile pour les features qui touchent plusieurs couches.
+- **Architect** ([.github/agents/architect.agent.md](.github/agents/architect.agent.md)) : décisions architecturales, découpage de tâches. Ne produit pas de code.
+- **Software Engineer** ([.github/agents/software-engineer.agent.md](.github/agents/software-engineer.agent.md)) : implémentation complète, compilable et testée.
+- **Code Reviewer** ([.github/agents/code-reviewer.agent.md](.github/agents/code-reviewer.agent.md)) : revue de code, bugs, sécurité, tests manquants. Ne corrige pas directement.
 
-**Feature :** [`backlog/page-animaux.user-story.md`](backlog/page-animaux.user-story.md)
+#### Agent Architect : Planifier la feature
 
-**Exercice :**
-
-```
-Décompose l'implémentation de la page de liste des animaux en étapes atomiques,
-dans l'ordre le plus sûr pour ne pas casser le comportement existant.
-```
-
-- Vérifier que chaque étape est indépendante et testable
-- Identifier l'étape la plus risquée et demander à Copilot comment la sécuriser
-
-<details>
-<summary>Décomposition attendue</summary>
-
-1. Vérifier si `PetRepository` expose déjà une méthode `findAll()` avec le owner chargé
-2. Si non, ajouter la méthode avec une requête JPQL `JOIN FETCH`
-3. Ajouter la méthode `showAllPets()` dans `PetController`
-4. Créer le template `pets/petsList.html`
-5. Ajouter le lien dans `fragments/layout.html`
-6. Écrire un test `PetControllerTests` pour la nouvelle route
-
-</details>
-
-##### 2.4 Stratégie de Rôles : Calendrier RDV
-
-**Principe :** Donner un rôle explicite à Copilot modifie le prisme de sa réponse. Un architecte pense différemment d'un développeur ou d'un reviewer.
-
-**Feature :** [`backlog/calendrier-rdv.user-story.md`](backlog/calendrier-rdv.user-story.md)
-
-> [!NOTE]
-> Ces rôles (Architecte, Software Engineer, Code Reviewer) sont les mêmes que ceux qui seront configurés en section 4.3 comme agents Custom Copilot. Cette stratégie de prompt est la version manuelle de ce que les agents automatiseront.
-
-**Exercice :**
-
-Poser le même sujet avec trois rôles différents et comparer :
+Dans un nouveau chat, sélectionner l'agent **Architect**, puis :
 
 ```
-Tu es un architecte Java/Spring.
-Propose une architecture pour implémenter le calendrier des RDV d'un vétérinaire.
-Fais des recommandations sur la modélisation des données et les choix techniques.
+Tu es architecte sur ce projet.
+Décompose l'implémentation de la feature #file:calendrier-rdv.user-story.md en tâches atomiques et ordonnées.
+Pour chaque tâche, précise : la couche impactée, les fichiers à créer ou modifier, les risques identifiés.
+Termine par les critères d'acceptance techniques que le développeur devra valider.
 ```
 
-```
-Tu es un développeur Java/Spring senior.
-Implémente la route GET /vets/{id}/calendar qui retourne les visites d'un vétérinaire
-sur une période donnée. Donne le code complet du controller et du repository.
-```
+#### Agent Software Engineer : Implémenter
+
+Sélectionner l'agent **Software Engineer**, puis :
 
 ```
-Tu es un code reviewer Java/Spring.
-Analyse cette implémentation et liste les risques, les oublis et les améliorations possibles.
-[coller le code produit par le rôle précédent]
+Implémente la feature #file:calendrier-rdv.user-story.md dans ce projet Spring Boot MVC en suivant le plan de l'architecte.
+Respecte les patterns existants du projet documentés dans #file:back.instructions.md et #file:front.instructions.md .
 ```
 
-- Observer comment chaque rôle filtre l'information et le niveau de détail
-- Noter les points soulevés par le reviewer qui n'auraient pas été couverts spontanément
+> [!IMPORTANT]
+> **Biais de confirmation** : un agent qui a produit du code aura tendance à valider sa propre production lors de la revue. Pour éviter ce biais, **ouvrir une nouvelle conversation** entre chaque agent.
 
-##### 2.5 Stratégie d'Auto-correction : Modification des vétérinaires
+#### Agent Code Reviewer : Réviser
 
-**Principe :** Demander à Copilot de critiquer sa propre proposition avant de la corriger. Cela simule une relecture croisée et détecte les oublis fréquents.
-
-**Feature :** [`backlog/modification-veterinaires.user-story.md`](backlog/modification-veterinaires.user-story.md)
-
-**Exercice :**
-
-Commencer par demander une première implémentation :
+Dans une **nouvelle conversation**, sélectionner l'agent **Code Reviewer**, puis soumettre le code produit :
 
 ```
-Implémente la route POST /vets/new pour créer un nouveau vétérinaire
-dans cette application Spring Boot MVC.
+Révise le code qui vient d'être produit pour la feature #file:calendrier-rdv.user-story.md .
+Liste par ordre de criticité : les incohérences avec les règles métier, les validations manquantes, les oublis de tests et les risques de sécurité (OWASP Top 10).
+Ne corrige pas : liste uniquement les observations.
 ```
 
-Puis demandez l'auto-correction :
+### 7. Stratégie Zero / One / Few Shots : Extraction d'une Note d'Accueil
+
+![Mode Ask](https://img.shields.io/badge/Mode-Ask-orange)
+![Prompt Engineering : Few-Shot](https://img.shields.io/badge/Prompt%20Engineering-Strat%C3%A9gie%20Few--Shot-informational)
+
+**Mise en situation :** L'agent d'accueil de la clinique prend des notes au fil de l'eau pendant les appels téléphoniques. Pour lui faire gagner du temps, on souhaite à terme que ces notes soient automatiquement converties en JSON afin de pré-remplir le formulaire de création d'une `Visit`. Avant d'industrialiser quoi que ce soit dans le code, on cherche d'abord à valider par le prompt qu'un LLM peut produire un JSON exploitable et conforme aux conventions du domaine (`Owner`, `Pet`, `Visit`).
+
+Fournir des exemples dans un prompt ne sert pas qu'à fixer un format : c'est aussi le moyen le plus court de transmettre une **politique métier tacite** (cas particuliers, valeurs par défaut) que les instructions textuelles peinent à décrire. Plus les exemples couvrent d'edge-cases, plus le modèle généralise la bonne règle. Lancer successivement les trois prompts ci-dessous sur le même jeu de notes et comparer les sorties.
+
+**Zero Shot (aucun cadrage) :**
 
 ```
-Critique ta propre implémentation.
-Liste les bugs potentiels, les oublis de validation et les tests manquants.
-Corrige ta proposition en tenant compte de cette critique.
+Convertis ces notes d'accueil en JSON pour créer une visite vétérinaire :
+1. "Mme Dupont rappelle pour Minou, vaccin demain 14h."
+2. "M. Martin amène Rex et Bella vendredi pour le contrôle annuel."
+3. "Un monsieur arrive avec un chat blessé, pas dans le système, à passer en urgence."
 ```
 
-- Comparer la version initiale et la version corrigée
-- Identifier les types d'oublis que Copilot détecte (et ceux qu'il manque)
-
-<details>
-<summary>Oublis typiques que Copilot devrait détecter</summary>
-
-- Absence de `@Valid` sur le `@ModelAttribute` dans le controller
-- Pas de gestion du cas où le `BindingResult` contient des erreurs
-- Redirection manquante après sauvegarde réussie (pattern Post/Redirect/Get)
-- Aucun test pour le cas de formulaire invalide
-- `@InitBinder` manquant pour protéger le champ `id`
-
-</details>
-
-##### 2.6 Stratégie Zero / One / Few Shot : Calendrier JSON
-
-**Principe :** Fournir des exemples dans le prompt améliore la cohérence et le format des réponses générées. Plus on donne d'exemples, plus la génération est précise.
-
-**Feature :** [`backlog/calendrier-rdv.user-story.md`](backlog/calendrier-rdv.user-story.md)
-
-**Exercice : Zero Shot (sans exemple) :**
+**One Shot (un exemple cadre le schéma) :**
 
 ```
-Génère un exemple de réponse JSON pour l'endpoint GET /vets/1/calendar.
+Convertis ces notes d'accueil en JSON pour créer une visite vétérinaire, en suivant le format de l'exemple.
+
+Exemple :
+Note : "Mme Leroy appelle pour Caramel, détartrage lundi 10h."
+JSON : { "ownerLastName": "Leroy", "petName": "Caramel", "visitType": "DETARTRAGE", "scheduledAt": "2026-05-04T10:00", "notes": null }
+
+Notes à convertir :
+1. "Mme Dupont rappelle pour Minou, vaccin demain 14h."
+2. "M. Martin amène Rex et Bella vendredi pour le contrôle annuel."
+3. "Un monsieur arrive avec un chat blessé, pas dans le système, à passer en urgence."
 ```
 
-**Exercice : One Shot (un exemple) :**
+**Few Shots (trois exemples encodent la politique métier) :**
 
 ```
-Génère un exemple de réponse JSON pour l'endpoint GET /vets/1/calendar.
-Voici le format attendu pour un événement :
-{ "id": 1, "date": "2026-04-22", "petName": "Léo", "ownerName": "Jean Martin", "description": "Contrôle annuel" }
+Convertis ces notes d'accueil en JSON pour créer une visite vétérinaire, en suivant le format des exemples.
+
+Exemple 1 (cas nominal) :
+Note : "Mme Leroy appelle pour Caramel, détartrage lundi 10h."
+JSON : { "ownerLastName": "Leroy", "pets": ["Caramel"], "visitType": "DETARTRAGE", "scheduledAt": "2026-05-04T10:00", "priority": "NORMAL", "needsOwnerLookup": false, "notes": null }
+
+Exemple 2 (heure absente, plusieurs animaux) :
+Note : "Famille Petit, Snoopy et Garfield, rappel vaccins jeudi."
+JSON : { "ownerLastName": "Petit", "pets": ["Snoopy", "Garfield"], "visitType": "VACCIN", "scheduledAt": "2026-05-07", "priority": "NORMAL", "needsOwnerLookup": false, "notes": null }
+
+Exemple 3 (propriétaire inconnu, urgence) :
+Note : "Quelqu'un débarque avec un chien qui boite, jamais vu, à caser tout de suite."
+JSON : { "ownerLastName": null, "pets": [null], "visitType": "URGENCE", "scheduledAt": "2026-04-30T09:00", "priority": "URGENT", "needsOwnerLookup": true, "notes": "chien qui boite, propriétaire à enregistrer" }
+
+Notes à convertir :
+1. "Mme Dupont rappelle pour Minou, vaccin demain 14h."
+2. "M. Martin amène Rex et Bella vendredi pour le contrôle annuel."
+3. "Un monsieur arrive avec un chat blessé, pas dans le système, à passer en urgence."
 ```
 
-**Exercice : Few Shot (deux exemples) :**
+### 8. Skills : Connaissances Métier Injectées à la Demande
+
+![Mode Agent](https://img.shields.io/badge/Mode-Agent-blueviolet)
+![Skill : generate-tests](https://img.shields.io/badge/Skill-generate--tests-teal)
+![Skill : conventional-commit](https://img.shields.io/badge/Skill-conventional--commit-teal)
+
+Ce projet embarque deux **Skills** :
+
+- [.github/skills/generate-tests/SKILL.md](.github/skills/generate-tests/SKILL.md) : conventions JUnit pour ce projet
+- [.github/skills/conventional-commit/SKILL.md](.github/skills/conventional-commit/SKILL.md) : format Conventional Commits
+
+Un skill s'active selon la tâche demandée par une correspondance sémantique sur le champ `description`. Le skill n'a jamais besoin d'être cité dans le prompt : Copilot l'injecte dès qu'il reconnaît que la demande correspond à son domaine.
+
+#### Génération de tests (skill `generate-tests`)
+
+`VetControllerTests` ne couvre actuellement que deux cas : la liste HTML (`GET /vets.html`) et l'endpoint JSON (`GET /vets`). Dans un chat Agent, demander :
 
 ```
-Génère 5 événements de calendrier au format JSON pour le vétérinaire 1.
-Voici deux exemples :
-{ "id": 1, "date": "2026-04-22", "petName": "Léo", "ownerName": "Jean Martin", "description": "Contrôle annuel" }
-{ "id": 2, "date": "2026-04-23", "petName": "Mimi", "ownerName": "Sophie Durand", "description": "Vaccination" }
+Génère les tests manquants pour VetController.
 ```
 
-- Comparer les trois outputs : cohérence du format, pertinence du contenu, respect du schema
-- Que se passe-t-il si un champ `vetId` est ajouté dans l'exemple ?
+#### Commit conventionnel (skill `conventional-commit`)
 
-#### 3. Mode Plan : Feature `preferredContactMethod`
-
-Le **mode Plan** de Copilot (mode Agentique) génère un plan de mise en œuvre complet avant d'écrire du code. Il analyse le projet, identifie les fichiers impactés et propose une séquence d'actions.
-
-> [!NOTE]
-> Le mode Plan est distinct du mode Ask : il prend des initiatives, explore activement le codebase, et liste les modifications qu'il va effectuer **avant** de les appliquer. Il est possible de valider ou de rejeter chaque étape.
-
-##### 3.1 Générer le plan
-
-- Ouvrir Copilot Chat et sélectionner le **mode Agent** (icône dans la barre de chat)
-- Soumettre le prompt suivant :
+Stager les modifications produites pendant cet exercice, puis dans un chat Agent :
 
 ```
-Planifie l'ajout d'un champ preferredContactMethod sur Owner
-avec validation métier conditionnelle, affichage UI et tests.
-Commence par lister les fichiers que tu vas modifier avant de toucher au code.
+Génère un message de commit pour les changements stagés.
 ```
 
-- Lire le plan généré **avant** d'approuver quoi que ce soit
-- Vérifier que les fichiers listés correspondent à ceux identifiés en section 1.2
+### 9. Model Context Protocol (MCP)
 
-##### 3.2 Évaluer le plan
+![MCP](https://img.shields.io/badge/Tool-MCP-gold)
 
-Avant d'appliquer, se poser ces questions :
+Le **Model Context Protocol (MCP)** est un protocole ouvert qui permet à Copilot d'invoquer des outils exposés par des serveurs externes.
 
-- Le plan respecte-t-il les 5 règles métier de l'US [`backlog/preferred-contact-method.user-story.md`](backlog/preferred-contact-method.user-story.md) ?
-- Les 4 cas de test minimum sont-ils prévus ?
-- Une migration SQL est-elle incluse ?
-- Y a-t-il des étapes à supprimer ou à ajouter ?
+> [!IMPORTANT]
+> Ce projet embarque son propre serveur MCP qui expose les données PetClinic (propriétaires, animaux, vétérinaires) directement depuis l'application Spring Boot. Il faut donc **démarrer l'application**.
 
-<details>
-<summary>Plan attendu (référence)</summary>
-
-1. Créer l'enum `ContactMethod { PHONE, EMAIL, POSTAL_MAIL }`
-2. Ajouter `email` (optionnel) et `preferredContactMethod` à `Owner.java`
-3. Créer `OwnerValidator.java` implémentant `org.springframework.validation.Validator`
-4. Enregistrer le validator dans `OwnerController` via `@InitBinder`
-5. Mettre à jour `createOrUpdateOwnerForm.html` (select + champ email)
-6. Mettre à jour `ownerDetails.html`
-7. Mettre à jour `schema.sql`
-8. Ajouter 4 cas dans `OwnerControllerTests.java`
-
-</details>
-
-##### 3.3 Appliquer le plan
-
-- Approuver le plan et laisser Copilot appliquer les modifications
-- Après chaque fichier modifié, relire le code généré
-- Identifier au moins une chose à corriger ou améliorer dans le code produit
-
-#### 4. Custom Copilot
-
-Les fonctionnalités **Custom Copilot** permettent de personnaliser le comportement de l'assistant : lui donner un contexte projet permanent (Instructions), créer des prompts réutilisables (Prompts), définir des agents avec des rôles spécialisés (Agents), et automatiser des actions récurrentes (Skills).
-
-##### 4.1 Instructions : Contextualiser Copilot sur le projet
-
-Les **Instructions** sont des directives permanentes qui s'appliquent à toutes les conversations Copilot dans le workspace. Elles permettent d'orienter les propositions sans répéter le contexte à chaque prompt.
-
-**Exercice :**
-
-Créer le fichier `.github/copilot-instructions.md` à la racine du projet avec le contenu suivant :
-
-```markdown
-Tu travailles sur une application Spring Boot MVC existante (Spring PetClinic).
-Privilégie des changements minimaux et lisibles.
-Ajoute des validations côté serveur quand une règle métier est introduite.
-Propose des tests quand la logique métier change.
-Respecte les patterns existants : @InitBinder pour les validators, Thymeleaf pour les vues.
-```
-
-Puis comparer :
-
-1. **Sans instructions** : demander à Copilot d'ajouter un champ `email` à `Owner`
-2. **Avec instructions** : refaire la même demande après avoir créé le fichier
-
-- Observer si Copilot adapte son style (minimal vs sur-ingéniéré)
-- Note-t-il spontanément qu'il faut un test ?
-- Propose-t-il d'utiliser `@InitBinder` sans le demander explicitement ?
-
-##### 4.2 Prompts : Créer un prompt réutilisable
-
-Les **Prompts** sont des fichiers `.prompt.md` enregistrés dans VS Code qui peuvent être invoqués rapidement depuis le chat. Ils évitent de retaper des instructions complexes.
-
-**Exercice :**
-
-Créer un fichier de prompt pour la revue de code Spring. Dans VS Code, ouvrir la palette de commandes (`Ctrl+Shift+P`) et chercher **"Copilot: New Prompt File"**, ou créer manuellement un fichier `.prompt.md` dans le dossier des prompts VS Code.
-
-Contenu suggéré :
-
-```markdownmode: askTu es un reviewer Java/Spring.
-Analyse le fichier sélectionné et liste :
-1. Les violations de bonnes pratiques Spring MVC
-2. Les validations manquantes
-3. Les cas de test non couverts
-4. Les risques de sécurité éventuels
-Sois concis et priorise par criticité.
-```
-
-- Invoquer ce prompt sur `OwnerController.java`
-- L'invoquer sur `VetController.java`
-- Comparer les points soulevés dans les deux cas
-
-##### 4.3 Agents : Rôles spécialisés
-
-Les **Agents** Custom Copilot sont des configurations d'IA avec un rôle, des instructions et des outils spécifiques. Ils permettent de déléguer des tâches répétitives à un assistant pré-configuré.
-
-> [!NOTE]
-> La **stratégie de rôles** a déjà été pratiquée manuellement en section 2.4. Les agents Custom Copilot automatisent cette personnalisation : il n'est plus nécessaire de répéter le rôle dans chaque prompt.
-
-Les trois agents à configurer correspondent aux rôles de la section 2.4 :
-
-###### Agent Architecte
-
-**Rôle :** Définir l'architecture à partir des specs d'une User Story.
-
-**Instructions :**
-```
-Tu es un architecte Java/Spring Senior.
-À partir d'une User Story, tu proposes :
-- La modélisation des données (entités, champs, relations)
-- Les couches impactées (controller, service, repository, view)
-- Les choix techniques justifiés (annotations, patterns)
-Tu ne produis pas de code, seulement des recommandations structurées.
-```
-
-**Exercice :** Lui soumettre l'US [`backlog/calendrier-rdv.user-story.md`](backlog/calendrier-rdv.user-story.md) et comparer sa réponse avec ce qui a été obtenu en 2.4.
-
-###### Agent Software Engineer
-
-**Rôle :** Produire une implémentation complète à partir d'un plan ou d'une spec.
-
-**Instructions :**
-```
-Tu es un développeur Java/Spring Senior.
-Tu produis une implémentation complète, compilable et testée.
-Tu respectes les patterns existants du projet (voir .github/copilot-instructions.md).
-Tu inclus systématiquement : le controller, le validator si besoin, la vue Thymeleaf, et au moins 2 tests.
-```
-
-**Exercice :** Lui demander d'implémenter l'étape 3 du plan généré en section 3 (création du `OwnerValidator`).
-
-###### Agent Code Reviewer
-
-**Rôle :** Réviser une implémentation et identifier les risques.
-
-**Instructions :**
-```
-Tu es un code reviewer Java/Spring.
-Tu analyses le code soumis et listes par ordre de criticité :
-- Les incohérences avec les règles métier
-- Les validations manquantes ou incorrectes
-- Les oublis de tests
-- Les messages d'erreur manquants ou peu clairs
-- Les risques de sécurité (OWASP Top 10)
-Tu critiques sans proposer de correction : c'est au développeur de corriger.
-```
-
-**Exercice :** Soumettre le code produit par l'Agent Software Engineer à cet agent. Comparer avec l'auto-correction de la section 2.5.
-
-#### 5. Model Context Protocol (MCP)
-
-Le **Model Context Protocol (MCP)** est un protocole ouvert qui permet aux modèles d'IA d'accéder à des outils et des sources de données externes de manière standardisée. Dans VS Code, Copilot peut utiliser des serveurs MCP pour enrichir ses réponses avec des données en temps réel.
-
-##### 5.1 Rechercher une MCP utile pour JPA
-
-**Exercice :**
-
-Explorer le registre des serveurs MCP disponibles et identifier un serveur qui serait utile pour le développement JPA / base de données dans ce projet.
-
-Pistes de recherche :
-- [MCP Servers Registry](https://github.com/modelcontextprotocol/servers)
-- [Awesome MCP Servers](https://github.com/punkpeye/awesome-mcp-servers)
-
-Questions à se poser :
-- Ce serveur MCP permettrait-il à Copilot de lire le schéma de la base de données directement ?
-- Pourrait-il générer des requêtes JPQL ou valider des mappings JPA ?
-- Quel est l'impact sur la pertinence des suggestions Copilot pour les repositories ?
-
-##### 5.2 Configurer le serveur MCP (si disponible)
-
-Si un serveur MCP pertinent a été identifié et est configurable localement :
-
-1. Ajouter sa configuration dans `.vscode/mcp.json`
-2. Reconnecter Copilot au serveur
-3. Tester en demandant à Copilot de générer une requête JPQL sur la base des entités du projet
-
-<details>
-<summary>Exemple de configuration MCP pour une base de données</summary>
+L'utilisation de serveurs MCP se configure localement dans [.vscode/mcp.json](.vscode/mcp.json). Configurer l'IDE pour qu'il découvre l'existence du serveur MCP :
 
 ```json
 {
   "servers": {
-    "sqlite-db": {
-      "type": "stdio",
-      "command": "uvx",
-      "args": ["mcp-server-sqlite", "--db-path", "./petclinic.db"]
+    "petclinic": {
+      "type": "sse",
+      "url": "http://localhost:8080/sse"
     }
   }
 }
 ```
 
-> Ce type de configuration permet à Copilot de lire le schéma et d'exécuter des requêtes SQL via le MCP.
+Ouvrir la palette de commandes (`Ctrl+Shift+P`) → **MCP: List Servers** → sélectionner `petclinic` → **Start Server**. Vérifier que le statut passe à `Running`.
 
-</details>
+Demander d'abord à Copilot de lister les fonctionnalités disponibles :
+
+```
+Quels outils me propose le serveur MCP petclinic ?
+```
+
+Puis utiliser un des outils listés, par exemple :
+
+```
+Combien y a-t-il de propriétaires dans la clinique ?
+```

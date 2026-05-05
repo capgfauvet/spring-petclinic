@@ -1,7 +1,5 @@
 ﻿# US : Page de consultation des animaux
 
-## Description
-
 En tant que membre du personnel de la clinique, je veux pouvoir consulter la liste de tous les animaux enregistrés sans être obligé de passer par la fiche d'un owner, afin de retrouver rapidement un animal.
 
 ## Règles métier

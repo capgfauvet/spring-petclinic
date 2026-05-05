@@ -1,7 +1,5 @@
 ﻿# US : Authentification vétérinaire / admin
 
-## Description
-
 En tant que vétérinaire ou administrateur, je veux pouvoir me connecter à l'application avec mes identifiants afin que les fonctionnalités sensibles (modification des vétérinaires, gestion des owners) soient protégées.
 
 ## Règles métier
